@@ -1,0 +1,293 @@
+
+<div class="section py-2">
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Portfolio Networth</h5>
+      <h6 id="NFT-total-usd" class="card-subtitle mb-2 ">loading...</h6>
+      <h6 id="NFT-total" class="card-subtitle mb-2 text-muted">loading...</h6>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row py-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
+
+</div>
+
+<div id="collection_stats_collapsed_container">
+</div>
+
+
+
+<div id="NFTCardsContainerToBeFilled" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 gap-3 pt-2">
+</div>
+
+
+
+<script>
+  const address = "0xb1675086bd4a199e28b87E2bBDa9C825116da78F";
+  const apiCall = "https://api.opensea.io/api/v1/assets?owner=";
+  const collectionStatsApiCall = "";
+  let firstupdate=1;
+  let NFTCollections = new Array();
+
+  let NFTStatsApiPromisesToBeCalled = [];
+  const collectionAPICall = "https://api.opensea.io/api/v1/collection/";
+
+  getNFTFromAddress(apiCall+address);
+
+  const scrollContainer = document.getElementById("Collection_Stats_Container");
+  scrollContainer.addEventListener("wheel", (evt) => {
+      evt.preventDefault();
+      scrollContainer.scrollLeft += evt.deltaY;
+  }, {passive: false});
+
+  //json parser and fill HTML text
+  async function getNFTFromAddress(file)
+  {
+    while (true)
+    {
+      let NFTCallOBJ = await fetch(file);
+      let NFTCallText = await NFTCallOBJ.text();
+
+      const NFTJSONObj = JSON.parse(NFTCallText);
+
+      for (let i = 0; i < NFTJSONObj.assets.length; i++)
+      {
+        let NFTID = NFTJSONObj.assets[i].id;
+        let NFTImage= NFTJSONObj.assets[i].image_url;
+        let NFTName= NFTJSONObj.assets[i].name;
+        let NFTpermalink=NFTJSONObj.assets[i].permalink;
+        let NFTCollection = NFTJSONObj.assets[i].asset_contract.name;
+        let NFTtopBid =NFTJSONObj.assets[i].top_bid;
+        let NFTSlug = NFTJSONObj.assets[i].collection.slug;
+        let NFTCollectionBanner = NFTJSONObj.assets[i].collection.banner_image_url;
+
+        let NFTCollectionURL = "https://opensea.io/collection/"+NFTSlug;
+
+        if(NFTtopBid==null)
+        {
+          NFTtopBid="N/A";
+        }
+
+        let NFTCardContent = `
+        <div id="${NFTID}" class="card flex-fill" style="width: 16rem;padding-right: 0; padding-left: 0;">
+          <div  class="ratio ratio-1x1" style>
+            <img id="${NFTID}-${NFTImage}" src="${NFTImage}" alt="${NFTName}" style="object-fit: cover; padding-right: 0; padding-left: 0;" class="card-img-top">
+          </div>
+          <div class="card-body">
+            <a id="${NFTID}-${NFTpermalink}" href="${NFTpermalink}" class="text-decoration-none text-reset">
+              <p id="${NFTID}-${NFTName}" class="card-title h5">${NFTName}</p>
+            </a>
+            <a id="${NFTID}-${NFTCollectionURL}" href="${NFTCollectionURL.toLowerCase()}" class="text-decoration-none text-reset">
+              <p id="${NFTID}-${NFTCollection}" class="card-title h6">${NFTCollection}</p>
+            </a>
+          </div>
+          <table class="table table-borderless max-width align-self-end table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Floor Price</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Top Bid</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="floor-price-${NFTSlug}" scope="row">--</td>
+                <td></td>
+                <td></td>
+                <td id="${NFTID}-${NFTtopBid}">${NFTtopBid}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>`;
+
+        if (document.getElementById(NFTID)==null)
+        {
+          document.getElementById('NFTCardsContainerToBeFilled').innerHTML += NFTCardContent;
+        }
+        else
+        {
+            document.getElementById(NFTID+'-'+NFTImage).src = NFTImage;
+            document.getElementById(NFTID+'-'+NFTImage).alt = NFTName;
+            document.getElementById(NFTID+'-'+NFTpermalink).href = NFTpermalink;
+            document.getElementById(NFTID+'-'+NFTName).innerHTML = NFTName;
+            document.getElementById(NFTID+'-'+NFTCollectionURL).href = NFTCollectionURL.toLowerCase();
+            document.getElementById(NFTID+'-'+NFTCollection).innerHTML = NFTCollection;
+            document.getElementById(NFTID+'-'+NFTtopBid).innerHTML = NFTtopBid;
+            if(!NFTCollections.includes(NFTSlug+''))
+            {
+              console.log('adding ' + NFTSlug +' to array');
+              NFTCollections.push(NFTSlug);
+
+              if(NFTCollectionBanner==null)
+              {
+                NFTCollectionBanner='https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/64px-HD_transparent_picture.png';
+              }
+
+              let collection_Stats_container_innerHTML =`
+              <div id="Collection_stats_${NFTSlug}" class="col-5 card" style="width: 12rem;padding-right: 0; padding-left: 0;" data-bs-toggle="collapse" data-bs-target="#collapsed_stats_${NFTSlug}" aria-expanded="false" aria-controls="collapsed_stats_${NFTSlug}">
+                <div  class="ratio ratio-1x1" style>
+                  <img src="${NFTCollectionBanner}" alt="${NFTCollection}" style="object-fit: cover; padding-right: 0; padding-left: 0;" class="card-img-top">
+                </div>
+                <div class="card-body">
+                    <p class="card-title h6" id="slug_Name_${NFTSlug}">${NFTCollection}</p>
+                </div>
+                <div class="card-footer card-title border-0 h6 bg-white floor-price-collection-card-${NFTSlug}">--
+                </div>
+              </div>`
+              ;
+              document.getElementById('Collection_Stats_Container').innerHTML+=collection_Stats_container_innerHTML;
+            }
+        }
+
+      }
+
+      if(firstupdate===1 && NFTCollections.length>1)
+      {
+        console.log("updating stats");
+        firstupdate=0;
+        updateStats();
+        firstupdate=0;
+      }
+      await sleep(15000);
+  }
+}
+
+async function updateStats()
+{
+        firstupdate=0;
+        var NFT_Value=0;
+        console.log(Object.keys(NFTCollections).length);
+        document.getElementById('collection_stats_collapsed_container').innerHTML="";
+              for (let i = 0; i < NFTCollections.length; i++)
+              {
+                let collectionname= NFTCollections[i];
+                let tempURL = `/web3/api?apiCall=${collectionAPICall}${collectionname}/stats`;
+                const NFSTStatsCallAPIdata = { apiCall: tempURL};
+
+                let headers = new Headers();
+                headers.set('Content-type', 'application/json');
+                const NFTStatsAPIOptions =
+                  {
+                      method: 'GET',
+                      headers: headers,
+                  };
+                  //console.log(NFTStatsAPIOptions.toString());
+
+                  let NFSTStatsCallAPI = await fetch(tempURL,NFTStatsAPIOptions);//NFSTStatsCallAPIdata );
+
+                  let NFTStatsCallSText = await NFSTStatsCallAPI.text();
+                  const NFTStatsJSONObj = JSON.parse(NFTStatsCallSText);
+
+                  let one_day_volume = Number(NFTStatsJSONObj.stats.one_day_volume);
+                  let one_day_change = Number(NFTStatsJSONObj.stats.one_day_change);
+                  let one_day_sales = Number(NFTStatsJSONObj.stats.one_day_sales);
+                  let one_day_average_price = Number(NFTStatsJSONObj.stats.one_day_average_price);
+                  let seven_day_volume = Number(NFTStatsJSONObj.stats.seven_day_volume);
+                  let seven_day_change = Number(NFTStatsJSONObj.stats.seven_day_change);
+                  let seven_day_sales = Number(NFTStatsJSONObj.stats.seven_day_sales);
+                  let seven_day_average_price = Number(NFTStatsJSONObj.stats.seven_day_average_price);
+                  let thirty_day_volume = Number(NFTStatsJSONObj.stats.thirty_day_volume);
+                  let thirty_day_change = Number(NFTStatsJSONObj.stats.thirty_day_change);
+                  let thirty_day_sales = Number(NFTStatsJSONObj.stats.thirty_day_sales);
+                  let thirty_day_average_price = Number(NFTStatsJSONObj.stats.thirty_day_average_price);
+                  let total_volume = Number(NFTStatsJSONObj.stats.total_volume);
+                  let total_sales = Number(NFTStatsJSONObj.stats.total_sales);
+                  let total_supply = Number(NFTStatsJSONObj.stats.total_supply);
+                  let count = Number(NFTStatsJSONObj.stats.count);
+                  let num_owners = Number(NFTStatsJSONObj.stats.num_owners);
+                  let average_price = Number(NFTStatsJSONObj.stats.average_price);
+                  let num_reports = Number(NFTStatsJSONObj.stats.num_reports);
+                  let market_cap = Number(NFTStatsJSONObj.stats.market_cap);
+                  let floor_price = Number(NFTStatsJSONObj.stats.floor_price);
+
+                  let matches = document.getElementsByClassName(`floor-price-${NFTCollections[i]}`);
+
+                  for (var ii=0; ii<matches.length; ii++)
+                  {
+                    NFT_Value += Number(NFTStatsJSONObj.stats.floor_price);
+                    matches.item(ii).innerHTML = 'Ξ'+NFTStatsJSONObj.stats.floor_price;
+                    console.log(`floor-price-${NFTCollections[i]} : ${NFTStatsJSONObj.stats.floor_price}`);
+                  }
+                  let collectionrealname= document.getElementById(`slug_Name_${collectionname}`).innerHTML;
+                  let collection_Stats_collapsed_container_innerHTML = `
+                  <div class="collapse" id="collapsed_stats_${collectionname}">
+                    <p class="card-title text-center h4 py-2">${collectionrealname}</p>
+                    <div class="section">
+                      <div class="row flex-row align-items-start p-2">
+                        <div class="col p-2">
+                          <div class="row m-1 bg-light">
+                            <div class="col" >
+                              <p>
+                                Supply: ${total_supply}
+                                <br>
+                                Owners: ${num_owners}
+                              </p>
+                            </div>
+                            <div class="col">
+                              <p>
+                                  Floor:  Ξ${Math.round(floor_price * 1000) / 1000 } $${(Math.round((floor_price*1090) * 100) / 100)}
+                                <br>
+                                  Avg. Price: Ξ${Math.round(average_price * 1000) / 1000} $${(Math.round((average_price*1090) * 100) / 100)}
+                              </p>
+                            </div>
+                            <div class="col">
+                              <p>
+                                  Sales: ${total_sales}
+                                  <br>
+                                  Market Cap: Ξ${Math.round(market_cap * 1000) / 1000 } $${Math.round((market_cap*1090) * 100) / 100}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="row p-2">
+                            <div class="col p-2" >
+                              <details open class="p-1 bg-light">
+                                <summary>24H Volume: ${Math.round((one_day_change*100) * 100) / 100}%</summary>
+                                Sales: ${one_day_sales}
+                                <br>
+                                Volume: Ξ${Math.round(one_day_volume * 1000) / 1000 } $${Math.round((one_day_volume*1090) * 100) / 100 }
+                                <br>
+                                Avg. Price: Ξ${Math.round(one_day_average_price * 1000) / 1000} $${Math.round((one_day_average_price*1090) * 100) / 100 }
+                              </details>
+                            </div>
+                            <div class="col p-2">
+                              <details open class="p-1 bg-light">
+                                <summary>7D Volume: ${Math.round((seven_day_change*100) * 100) / 100 }%</summary>
+                                Sales: ${seven_day_sales}
+                                <br>
+                                Volume: Ξ${Math.round(seven_day_volume * 1000) / 1000 } $${Math.round((seven_day_volume*1090) * 100) / 100 }
+                                <br>
+                                Avg. Price: Ξ${Math.round(seven_day_average_price * 1000) / 1000 } $${Math.round((seven_day_average_price*1090) * 100) / 100}
+                              </detailslass="p-1 bg-light">
+                            </div>
+                            <div class="col p-2">
+                              <details open class="p-1 bg-light">
+                                <summary>30D Volume: ${Math.round((thirty_day_change*100) * 100) / 100}%</summary>
+                                Sales: ${thirty_day_sales}
+                                <br>
+                                Volume: Ξ${Math.round(thirty_day_volume * 1000) / 1000} $${Math.round((thirty_day_volume*1090) * 100) / 100}
+                                <br>
+                                Avg. Price: Ξ${Math.round(thirty_day_average_price * 1000) / 1000} $${Math.round((thirty_day_average_price*1090) * 100) / 100}
+                              </details>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
+
+                  document.getElementById('collection_stats_collapsed_container').innerHTML+=collection_Stats_collapsed_container_innerHTML;
+                  document.getElementsByClassName(`floor-price-collection-card-${collectionname}`)[0].innerHTML = `Ξ${Math.round(floor_price * 1000) / 1000 } $${(Math.round((floor_price*1090) * 100) / 100)}`;
+
+
+              }
+              document.getElementById('NFT-total').innerHTML=`Ξ${Math.round(NFT_Value * 1000) / 1000}`;
+              document.getElementById('NFT-total-usd').innerHTML=`$${Math.round((NFT_Value*1250) * 100) / 100}`;
+              console.log(NFT_Value);
+              await sleep(1000);
+  }
+
+</script>

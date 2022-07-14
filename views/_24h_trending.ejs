@@ -1,0 +1,124 @@
+<script src="https://cdn.jsdelivr.net/npm/mathjs@8.0.1/lib/browser/math.js"  crossorigin="anonymous"></script>
+<div class="container-fluid w-100 bg-light">
+	<div class="table table-responsive w-100 d-md-table">
+
+    <table class="table table-hover w-100">
+      <thead>
+        <p class="card-title h4">24H Trending</p>
+        <tr>
+          <th><abbr title="Token Rank">Rank</abbr></th>
+          <th><abbr title="Token Name">Name</abbr></th>
+          <th><abbr title="Token Ticker">Ticker</abbr></th>
+          <th><abbr title="Token Price in BTC">Price</abbr></th>
+          <th class="is-size-7 has-text-right"><abbr id="refreshTrendingCounter" title="Seconds since last refresh">0</abbr></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>1</th>
+          <td style="text-align: left;" id="trending1Name"></td>
+          <td style="text-align: left;" id="trending1Symbol"></td>
+          <td style="text-align: left;" id="trending1Price"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td style="text-align: left;" id="trending2Name"></td>
+          <td style="text-align: left;" id="trending2Symbol"></td>
+          <td style="text-align: left;" id="trending2Price"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td style="text-align: left;" id="trending3Name"></td>
+          <td style="text-align: left;" id="trending3Symbol"></td>
+          <td style="text-align: left;" id="trending3Price"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td style="text-align: left;" id="trending4Name"></td>
+          <td style="text-align: left;" id="trending4Symbol"></td>
+          <td style="text-align: left;" id="trending4Price"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td style="text-align: left;" id="trending5Name"></td>
+          <td style="text-align: left;" id="trending5Symbol"></td>
+          <td style="text-align: left;" id="trending5Price"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td style="text-align: left;" id="trending6Name"></td>
+          <td style="text-align: left;" id="trending6Symbol"></td>
+          <td style="text-align: left;" id="trending6Price"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td style="text-align: left;" id="trending7Name"></td>
+          <td style="text-align: left;" id="trending7Symbol"></td>
+          <td style="text-align: left;" id="trending7Price"></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+  //api call
+  getText("https://api.coingecko.com/api/v3/search/trending");
+
+  var trendingSecCounter = 0;
+
+  //json parser and fill HTML text
+  async function getText(file) {
+    refreshTrendingCounter();
+    while (true)
+    {
+      let myObject = await fetch(file);
+      let myText = await myObject.text();
+
+      let btcObj = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
+      let btcMyText = await btcObj.text();
+
+      const obj = JSON.parse(myText);
+      const btcobj = JSON.parse(btcMyText)
+
+      var btcprice = btcobj.bitcoin.usd;
+
+      for (let i = 0; i < obj.coins.length; i++)
+      {
+        document.getElementById("trending"+(i+1)+"Name").innerHTML = obj.coins[i].item.name;
+        document.getElementById("trending"+(i+1)+"Symbol").innerHTML = obj.coins[i].item.symbol;
+        var priceSTR = ""+obj.coins[i].item.price_btc;
+        if(priceSTR.includes('e'))
+          {
+            document.getElementById("trending"+(i+1)+"Price").innerHTML ="$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto',precision: 4});
+          }
+          else
+          {
+            document.getElementById("trending"+(i+1)+"Price").innerHTML = "$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto', precision: 4});
+          }
+      }
+      await sleep(5000);
+      trendingSecCounter=0;
+    }
+
+  }
+
+  //refresh counter since successful api call
+  async function refreshTrendingCounter()
+  {
+    while (true)
+    {
+      document.getElementById("refreshTrendingCounter").innerHTML = trendingSecCounter;
+      await sleep(1000);
+      trendingSecCounter++;
+    }
+  }
+
+</script>

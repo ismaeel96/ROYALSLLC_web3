@@ -1,0 +1,114 @@
+
+<div class="container-fluid w-100 bg-light">
+	<div class="table table-responsive w-100 d-md-table">
+
+		<table class="table table-hover w-100 ">
+			<thead>
+        <p class="card-title h4">Gas Tracker</p>
+
+				<tr class="w-100">
+				  <th><abbr title="estimated speed for transaction to complete">Speed</abbr></th>
+				  <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+				  <th><abbr title="Gwei is used to measure the cost of transactions on the Ethereum network">Gwei</abbr></th>
+				  <th class="is-size-7 has-text-right"><abbr id="refreshCounter" title="Seconds since last refresh">0</abbr></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+				  <th >Slow</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+				  <td style="text-align: left;" id="SafeGasPrice"></td>
+          <td></td>
+				</tr>
+				<tr>
+				  <th>Medium</th>
+				  <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+				  <td style="text-align: left;" id="ProposeGasPrice"></td>
+          <td></td>
+				</tr>
+				<tr>
+				  <th >Fast</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+				  <td style="text-align: left;" id="FastGasPrice"></td>
+          <td></td>
+				</tr>
+				<tr>
+				  <th >Suggested</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+				  <td style="text-align: left;" id="suggestBaseFee"></td>
+          <td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+	<script>
+		//api call
+		getText("https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=WIXBRRT4DHHS6UM2CSJ4SB9GEU5SM5JBB5");
+
+		var messageStatus="NOK";
+		var secCounter = 0;
+
+		//json parser and fill HTML text
+		async function getText(file) {
+			/*https://api.etherscan.io/api
+			?module=gastracker
+			&action=gasoracle
+			&apikey=WIXBRRT4DHHS6UM2CSJ4SB9GEU5SM5JBB5 */
+			refreshCounter();
+			while (true)
+			{
+				let myObject = await fetch(file);
+				let myText = await myObject.text();
+
+				const obj = JSON.parse(myText);
+				  //document.getElementById("demo").innerHTML = myText;
+				document.getElementById("SafeGasPrice").innerHTML = obj.result.SafeGasPrice;
+				document.getElementById("ProposeGasPrice").innerHTML = obj.result.ProposeGasPrice;
+				document.getElementById("FastGasPrice").innerHTML = obj.result.FastGasPrice;
+				document.getElementById("suggestBaseFee").innerHTML = Math.round(Number(obj.result.suggestBaseFee));
+				messageStatus=obj.message;
+
+				if(messageStatus==="OK")
+				{
+					messageStatus="NOK";
+					secCounter=0;
+				}
+				await sleep(5000);
+			}
+
+		}
+
+		//refresh counter since successful api call
+		async function refreshCounter()
+		{
+			while (true)
+			{
+				document.getElementById("refreshCounter").innerHTML = secCounter;
+				await sleep(1000);
+				secCounter++;
+			}
+		}
+
+		//sleep helper
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+	</script>
