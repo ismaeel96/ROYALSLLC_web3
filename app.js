@@ -11,9 +11,9 @@ app.set("view engine", "ejs");
 
 app.use(express.json({limit: '1mb'}));
 app.use(routes);
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 
 app.listen(app.get("port"), function(){
