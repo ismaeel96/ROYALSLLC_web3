@@ -14,7 +14,9 @@ app.use(routes);
 //app.use(express.static(path.join(__dirname, '/public')));
 //app.use('/public', express.static('public'))
 //app.use(express.static('public'));
-app.use(express.static(path.join(__dirname, '../public')));
+//app.use(express.static(path.join(__dirname, '../public')));
+
+app.use('/assets', express.static(path.join(__dirname, 'public')))
 
 app.listen(app.get("port"), function(){
     console.log("Server started on port ");
