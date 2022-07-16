@@ -1,72 +1,62 @@
 <script src="https://cdn.jsdelivr.net/npm/mathjs@8.0.1/lib/browser/math.js"  crossorigin="anonymous"></script>
+
 <div class="container-fluid w-100 bg-light">
 	<div class="table table-responsive w-100 d-md-table">
 
     <table class="table table-hover w-100">
       <thead>
-        <p class="card-title h4">24H Trending</p>
+				<div class="d-flex mb-3">
+					  <div class="p-2 card-title h4">24H Trending</div>
+					  <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refreshTrendingCounter" title="Seconds since last refresh">0</abbr></div>
+				</div>
+
         <tr>
-          <th><abbr title="Token Rank">Rank</abbr></th>
           <th><abbr title="Token Name">Name</abbr></th>
           <th><abbr title="Token Ticker">Ticker</abbr></th>
           <th><abbr title="Token Price in BTC">Price</abbr></th>
-          <th class="is-size-7 has-text-right"><abbr id="refreshTrendingCounter" title="Seconds since last refresh">0</abbr></th>
+          <th class="is-size-7 has-text-right"></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th>1</th>
-          <td style="text-align: left;" id="trending1Name"></td>
+          <th style="text-align: left;" id="trending1Name"></th>
           <td style="text-align: left;" id="trending1Symbol"></td>
           <td style="text-align: left;" id="trending1Price"></td>
-          <td></td>
         </tr>
         <tr>
-          <th>2</th>
-          <td style="text-align: left;" id="trending2Name"></td>
+          <th style="text-align: left;" id="trending2Name"></th>
           <td style="text-align: left;" id="trending2Symbol"></td>
           <td style="text-align: left;" id="trending2Price"></td>
-          <td></td>
         </tr>
         <tr>
-          <th>3</th>
-          <td style="text-align: left;" id="trending3Name"></td>
+          <th style="text-align: left;" id="trending3Name"></th>
           <td style="text-align: left;" id="trending3Symbol"></td>
           <td style="text-align: left;" id="trending3Price"></td>
-          <td></td>
         </tr>
         <tr>
-          <th>4</th>
-          <td style="text-align: left;" id="trending4Name"></td>
+          <th style="text-align: left;" id="trending4Name"></th>
           <td style="text-align: left;" id="trending4Symbol"></td>
           <td style="text-align: left;" id="trending4Price"></td>
-          <td></td>
         </tr>
         <tr>
-          <th>5</th>
-          <td style="text-align: left;" id="trending5Name"></td>
+          <th style="text-align: left;" id="trending5Name"></th>
           <td style="text-align: left;" id="trending5Symbol"></td>
           <td style="text-align: left;" id="trending5Price"></td>
-          <td></td>
         </tr>
         <tr>
-          <th>6</th>
-          <td style="text-align: left;" id="trending6Name"></td>
+          <th style="text-align: left;" id="trending6Name"></th>
           <td style="text-align: left;" id="trending6Symbol"></td>
           <td style="text-align: left;" id="trending6Price"></td>
-          <td></td>
         </tr>
         <tr>
-          <th>7</th>
-          <td style="text-align: left;" id="trending7Name"></td>
+          <th style="text-align: left;" id="trending7Name"></th>
           <td style="text-align: left;" id="trending7Symbol"></td>
           <td style="text-align: left;" id="trending7Price"></td>
-          <td></td>
         </tr>
       </tbody>
     </table>
   </div>
-</section>
+</div>
 
 <script>
   //api call

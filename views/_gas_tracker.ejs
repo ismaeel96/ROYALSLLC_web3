@@ -1,10 +1,39 @@
 
 <div class="container-fluid w-100 bg-light">
 	<div class="table table-responsive w-100 d-md-table">
-
+		<div class="d-flex mb-3">
+				<div class="p-2 card-title h4">Gas Tracker</div>
+				<div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="gasrefreshCounter" title="Seconds since last refresh">0</abbr></div>
+		</div>
+		<div class="d-flex mb-3 text-center">
+				<div class="flex-fill">
+							<span class=" has-text-center h6">Slow</span>
+							<br>
+							<span class="is-size-10 has-text-center" id="SafeGasPrice"> </span>
+				</div>
+				<div class="flex-fill">
+							<span class=" has-text-center h6">Medium</span>
+							<br>
+							<span class="is-size-10 has-text-center" id="ProposeGasPrice"> </span>
+				</div>
+				<div class="flex-fill">
+							<span class=" has-text-center h6">Fast</span>
+							<br>
+							<span class="is-size-10 has-text-center" id="FastGasPrice"> </span>
+				</div>
+				<div class="flex-fill">
+							<span class=" has-text-center h6">Suggested</span>
+							<br>
+							<span class="is-size-10 has-text-center" id="suggestBaseFee"> </span>
+				</div>
+		</div>
+<!--
 		<table class="table table-hover w-100 ">
 			<thead>
-        <p class="card-title h4">Gas Tracker</p>
+				<div class="d-flex mb-3">
+						<div class="p-2 card-title h4">Gas Tracker</div>
+						<div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="gasrefreshCounter" title="Seconds since last refresh">0</abbr></div>
+				</div>
 
 				<tr class="w-100">
 				  <th><abbr title="estimated speed for transaction to complete">Speed</abbr></th>
@@ -13,7 +42,6 @@
           <th></th>
           <th></th>
 				  <th><abbr title="Gwei is used to measure the cost of transactions on the Ethereum network">Gwei</abbr></th>
-				  <th class="is-size-7 has-text-right"><abbr id="refreshCounter" title="Seconds since last refresh">0</abbr></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -24,7 +52,6 @@
           <td></td>
           <td></td>
 				  <td style="text-align: left;" id="SafeGasPrice"></td>
-          <td></td>
 				</tr>
 				<tr>
 				  <th>Medium</th>
@@ -33,7 +60,6 @@
           <td></td>
           <td></td>
 				  <td style="text-align: left;" id="ProposeGasPrice"></td>
-          <td></td>
 				</tr>
 				<tr>
 				  <th >Fast</th>
@@ -42,7 +68,6 @@
           <td></td>
           <td></td>
 				  <td style="text-align: left;" id="FastGasPrice"></td>
-          <td></td>
 				</tr>
 				<tr>
 				  <th >Suggested</th>
@@ -51,10 +76,10 @@
           <td></td>
           <td></td>
 				  <td style="text-align: left;" id="suggestBaseFee"></td>
-          <td></td>
 				</tr>
 			</tbody>
 		</table>
+		-->
 	</div>
 </div>
 
@@ -72,7 +97,7 @@
 			?module=gastracker
 			&action=gasoracle
 			&apikey=WIXBRRT4DHHS6UM2CSJ4SB9GEU5SM5JBB5 */
-			refreshCounter();
+			gasrefreshCounter();
 			while (true)
 			{
 				let myObject = await fetch(file);
@@ -97,11 +122,11 @@
 		}
 
 		//refresh counter since successful api call
-		async function refreshCounter()
+		async function gasrefreshCounter()
 		{
 			while (true)
 			{
-				document.getElementById("refreshCounter").innerHTML = secCounter;
+				document.getElementById("gasrefreshCounter").innerHTML = secCounter;
 				await sleep(1000);
 				secCounter++;
 			}

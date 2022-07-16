@@ -1,18 +1,18 @@
 
-<div class="section py-2">
-  <div class="card" style="width: 18rem;">
+<div class="section py-2 px-0">
+  <div class="card px-3" style="width: 16rem;">
     <div class="card-body">
       <h5 class="card-title">Portfolio Networth</h5>
       <h6 id="NFT-total-usd" class="card-subtitle mb-2 ">loading...</h6>
       <h6 id="NFT-total" class="card-subtitle mb-2 text-muted">loading...</h6>
     </div>
-    <button type="button" onclick="updateStats();" class="btn bg-black text-white fs-4 fw-bold"><i class="bi bi-arrow-clockwise"></i></button>
   </div>
+    <button type="button" onclick="updateStats();" class="btn bg-black text-white fs-4 fw-bold"><i class="fa fa-1x fa-arrow-rotate-right"></i></button>
 </div>
 
 
 
-<div class="row py-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
+<div class="px-3 row py-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
 
 </div>
 
@@ -21,7 +21,7 @@
 
 
 
-<div id="NFTCardsContainerToBeFilled" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 gap-3 pt-2">
+<div id="NFTCardsContainerToBeFilled" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6  g-3 gap-3 pt-2 px-3">
 </div>
 
 
@@ -104,11 +104,11 @@
         }
 
         let NFTCardContent = `
-        <div id="${NFTID}" class="card flex-fill" style="width: 16rem;padding-right: 0; padding-left: 0;">
+        <div id="${NFTID}" class="card flex-fill w-sm-50" style="max-width: 18rem; width:14rem;padding-right: 0; padding-left: 0;">
           <div  class="ratio ratio-1x1" style>
             <img id="${NFTID}-${NFTImage}" src="${NFTImage}" alt="${NFTName}" style="object-fit: cover; padding-right: 0; padding-left: 0;" class="card-img-top">
           </div>
-          <div class="card-body">
+          <div class="card-body p-1 pb-2">
             <a id="${NFTID}-${NFTpermalink}" href="${NFTpermalink}" class="text-decoration-none text-reset">
               <p id="${NFTID}-${NFTName}" class="card-title h5">${NFTName}</p>
             </a>
@@ -116,7 +116,7 @@
               <p id="${NFTID}-${NFTCollection}" class="card-title h6">${NFTCollection}</p>
             </a>
           </div>
-          <table class="table table-borderless max-width align-self-end table-sm">
+          <table class="table table-borderless max-width align-self-end table-sm py-1">
             <thead>
               <tr>
                 <th scope="col">Floor Price</th>
@@ -223,7 +223,7 @@ async function updateStats()
                   for (var ii=0; ii<matches.length; ii++)
                   {
                     NFT_Value += Number(NFTStatsJSONObj.stats.floor_price);
-                    matches.item(ii).innerHTML = 'Ξ'+NFTStatsJSONObj.stats.floor_price;
+                    matches.item(ii).innerHTML = '<i class="fa-brands fa-ethereum"></i> '+NFTStatsJSONObj.stats.floor_price;
                     console.log(`floor-price-${NFTCollections[i]} : ${NFTStatsJSONObj.stats.floor_price}`);
                   }
                   let collectionrealname= document.getElementById(`slug_Name_${collectionname}`).innerHTML;
@@ -243,16 +243,16 @@ async function updateStats()
                             </div>
                             <div class="col">
                               <p>
-                                  Floor:  Ξ${Math.round(floor_price * 1000) / 1000 } $${(Math.round((floor_price*1090) * 100) / 100)}
+                                  Floor:  <i class="fa-brands fa-ethereum"></i> ${Math.round(floor_price * 1000) / 1000 } $${(Math.round((floor_price*1090) * 100) / 100)}
                                 <br>
-                                  Avg. Price: Ξ${Math.round(average_price * 1000) / 1000} $${(Math.round((average_price*1090) * 100) / 100)}
+                                  Avg. Price: <i class="fa-brands fa-ethereum"></i> ${Math.round(average_price * 1000) / 1000} $${(Math.round((average_price*1090) * 100) / 100)}
                               </p>
                             </div>
                             <div class="col">
                               <p>
                                   Sales: ${total_sales}
                                   <br>
-                                  Market Cap: Ξ${Math.round(market_cap * 1000) / 1000 } $${Math.round((market_cap*1090) * 100) / 100}
+                                  Market Cap: <i class="fa-brands fa-ethereum"></i> ${Math.round(market_cap * 1000) / 1000 } $${Math.round((market_cap*1090) * 100) / 100}
                               </p>
                             </div>
                           </div>
@@ -262,9 +262,9 @@ async function updateStats()
                                 <summary>24H Volume: ${Math.round((one_day_change*100) * 100) / 100}%</summary>
                                 Sales: ${one_day_sales}
                                 <br>
-                                Volume: Ξ${Math.round(one_day_volume * 1000) / 1000 } $${Math.round((one_day_volume*1090) * 100) / 100 }
+                                Volume: <i class="fa-brands fa-ethereum"></i> ${Math.round(one_day_volume * 1000) / 1000 } $${Math.round((one_day_volume*1090) * 100) / 100 }
                                 <br>
-                                Avg. Price: Ξ${Math.round(one_day_average_price * 1000) / 1000} $${Math.round((one_day_average_price*1090) * 100) / 100 }
+                                Avg. Price: <i class="fa-brands fa-ethereum"></i> ${Math.round(one_day_average_price * 1000) / 1000} $${Math.round((one_day_average_price*1090) * 100) / 100 }
                               </details>
                             </div>
                             <div class="col p-2">
@@ -272,9 +272,9 @@ async function updateStats()
                                 <summary>7D Volume: ${Math.round((seven_day_change*100) * 100) / 100 }%</summary>
                                 Sales: ${seven_day_sales}
                                 <br>
-                                Volume: Ξ${Math.round(seven_day_volume * 1000) / 1000 } $${Math.round((seven_day_volume*1090) * 100) / 100 }
+                                Volume: <i class="fa-brands fa-ethereum"></i> ${Math.round(seven_day_volume * 1000) / 1000 } $${Math.round((seven_day_volume*1090) * 100) / 100 }
                                 <br>
-                                Avg. Price: Ξ${Math.round(seven_day_average_price * 1000) / 1000 } $${Math.round((seven_day_average_price*1090) * 100) / 100}
+                                Avg. Price: <i class="fa-brands fa-ethereum"></i> ${Math.round(seven_day_average_price * 1000) / 1000 } $${Math.round((seven_day_average_price*1090) * 100) / 100}
                               </detailslass="p-1 bg-light">
                             </div>
                             <div class="col p-2">
@@ -282,9 +282,9 @@ async function updateStats()
                                 <summary>30D Volume: ${Math.round((thirty_day_change*100) * 100) / 100}%</summary>
                                 Sales: ${thirty_day_sales}
                                 <br>
-                                Volume: Ξ${Math.round(thirty_day_volume * 1000) / 1000} $${Math.round((thirty_day_volume*1090) * 100) / 100}
+                                Volume: <i class="fa-brands fa-ethereum"></i> ${Math.round(thirty_day_volume * 1000) / 1000} $${Math.round((thirty_day_volume*1090) * 100) / 100}
                                 <br>
-                                Avg. Price: Ξ${Math.round(thirty_day_average_price * 1000) / 1000} $${Math.round((thirty_day_average_price*1090) * 100) / 100}
+                                Avg. Price: <i class="fa-brands fa-ethereum"></i> ${Math.round(thirty_day_average_price * 1000) / 1000} $${Math.round((thirty_day_average_price*1090) * 100) / 100}
                               </details>
                             </div>
                           </div>
@@ -294,11 +294,11 @@ async function updateStats()
                   </div>`;
 
                   document.getElementById('collection_stats_collapsed_container').innerHTML+=collection_Stats_collapsed_container_innerHTML;
-                  document.getElementsByClassName(`floor-price-collection-card-${collectionname}`)[0].innerHTML = `Ξ${Math.round(floor_price * 1000) / 1000 } $${(Math.round((floor_price*1090) * 100) / 100)}`;
+                  document.getElementsByClassName(`floor-price-collection-card-${collectionname}`)[0].innerHTML = `<i class="fa-brands fa-ethereum"></i> ${Math.round(floor_price * 1000) / 1000 } $${(Math.round((floor_price*1090) * 100) / 100)}`;
 
 
               }
-              document.getElementById('NFT-total').innerHTML=`Ξ${Math.round(NFT_Value * 1000) / 1000}`;
+              document.getElementById('NFT-total').innerHTML=`<i class="fa-brands fa-ethereum"></i> ${Math.round(NFT_Value * 1000) / 1000}`;
               document.getElementById('NFT-total-usd').innerHTML=`$${Math.round((NFT_Value*1250) * 100) / 100}`;
               console.log(NFT_Value);
   }
