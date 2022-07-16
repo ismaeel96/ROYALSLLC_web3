@@ -2,7 +2,59 @@
 <div class="container-fluid">
   <div class="row align-items-start">
     <div class="col-md-9 col-lg-9 col-xl-9 col-xxl-9 col-sm-12 col-12 card-deck">
+
+      <div class="section py-2 px-0">
+        <div class="card px-3" style="width: 16rem;">
+          <div class="card-body">
+            <h5 class="card-title">Portfolio Networth</h5>
+            <h6 id="NFT-total-usd" class="card-subtitle mb-2 ">loading...</h6>
+            <h6 id="NFT-total" class="card-subtitle mb-2 text-muted">loading...</h6>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div class="px-3 row py-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
+
+      </div>
+
+      <div id="collection_stats_collapsed_container">
+      </div>
+
+      <ul class="nav nav-tabs fs-6" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link text-black active" id="token-tab" data-bs-toggle="tab" data-bs-target="#token-tab-pane" type="button" role="tab" aria-controls="token-tab-pane" aria-selected="true"><i class="fa-solid fa-qrcode"></i> Portfolio</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link text-black " id="nfts-tab" data-bs-toggle="tab" data-bs-target="#nfts-tab-pane" type="button" role="tab" aria-controls="nfts-tab-pane" aria-selected="false"><i class="fa-solid fa-file-contract"></i> NFTs</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link text-black " id="widgets-tab" data-bs-toggle="tab" data-bs-target="#widgets-tab-pane" type="button" role="tab" aria-controls="widgets-tab-pane" aria-selected="false"><i class="fa-solid fa-cubes-stacked"></i> Widgets</button>
+        </li>
+        <li class="nav-item ms-auto text-end float-end ">
+          <button type="button" onclick="updateStats();" class="btn bg-black fs-6 text-white fw-bold"><i class="fa fa-1x fa-arrow-rotate-right"></i></button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="token-tab-pane" role="tabpanel" aria-labelledby="token-tab" tabindex="0">
+
+        </div>
+
+        <div class="tab-pane fade" id="nfts-tab-pane" role="tabpanel" aria-labelledby="nfts-tab" tabindex="0">
             <%- include('_nft_view2'); -%>
+        </div>
+
+        <div class="tab-pane fade" id="widgets-tab-pane" role="tabpanel" aria-labelledby="widgets-tab" tabindex="0">
+
+        </div>
+      </div>
+
+
+
+
+
     </div>
     <div class="col-3 d-none d-sm-none d-lg-block d-md-block d-xl-block d-xxl-block">
         <p class="card-title text-center h1 py-2">Widgets</p>

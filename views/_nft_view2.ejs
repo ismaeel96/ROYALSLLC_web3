@@ -1,26 +1,4 @@
 
-<div class="section py-2 px-0">
-  <div class="card px-3" style="width: 16rem;">
-    <div class="card-body">
-      <h5 class="card-title">Portfolio Networth</h5>
-      <h6 id="NFT-total-usd" class="card-subtitle mb-2 ">loading...</h6>
-      <h6 id="NFT-total" class="card-subtitle mb-2 text-muted">loading...</h6>
-    </div>
-  </div>
-    <button type="button" onclick="updateStats();" class="btn bg-black text-white fs-4 fw-bold"><i class="fa fa-1x fa-arrow-rotate-right"></i></button>
-</div>
-
-
-
-<div class="px-3 row py-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
-
-</div>
-
-<div id="collection_stats_collapsed_container">
-</div>
-
-
-
 <div id="NFTCardsContainerToBeFilled" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6  g-3 gap-3 pt-2 px-3">
 </div>
 
@@ -49,14 +27,27 @@
   //json parser and fill HTML text
   async function getNFTFromAddress()
   {
-    address=document.getElementById('address_lookup_search').value;
-    let NFTCallOBJ = await fetch(opensea_assets_apiCall+address);
-    let NFTCallText = await NFTCallOBJ.text();
+    if(clearOldData())
+    {
+      address=document.getElementById('address_lookup_search').value;
+      let NFTCallOBJ = await fetch(opensea_assets_apiCall+address);
+      let NFTCallText = await NFTCallOBJ.text();
 
-     NFTAssets = JSON.parse(NFTCallText);
-     renderNFTCards();
+       NFTAssets = JSON.parse(NFTCallText);
+       renderNFTCards();
+    }
   }
 
+function clearOldData()
+{
+  document.getElementById('NFTCardsContainerToBeFilled').innerHTML='';
+  document.getElementById('Collection_Stats_Container').innerHTML='';
+  document.getElementById('collection_stats_collapsed_container').innerHTML='';
+  NFTAssets = {};
+  NFTCollections = [];
+
+  return true;
+}
 
   async function renderNFTCards()
   {
@@ -82,14 +73,14 @@
           }
 
           let collection_Stats_container_innerHTML =`
-          <div id="Collection_stats_${NFTSlug}" class="col-5 card" style="width: 12rem;padding-right: 0; padding-left: 0;" data-bs-toggle="collapse" data-bs-target="#collapsed_stats_${NFTSlug}" aria-expanded="false" aria-controls="collapsed_stats_${NFTSlug}">
-            <div  class="ratio ratio-1x1" style>
+          <div id="Collection_stats_${NFTSlug}" class="col-5 card" style="width: 9rem;padding-right: 0; padding-left: 0;" data-bs-toggle="collapse" data-bs-target="#collapsed_stats_${NFTSlug}" aria-expanded="false" aria-controls="collapsed_stats_${NFTSlug}">
+            <div  class="ratio ratio-16x9" style>
               <img src="${NFTCollectionBanner}" alt="${NFTCollection}" style="object-fit: cover; padding-right: 0; padding-left: 0;" class="card-img-top">
             </div>
-            <div class="card-body">
-                <p class="card-title h6" id="slug_Name_${NFTSlug}">${NFTCollection}</p>
+            <div class="card-body p-1">
+                <p class="card-title h6 text-truncate d-inline-block" style="max-width:100%" id="slug_Name_${NFTSlug}">${NFTCollection}</p>
             </div>
-            <div class="card-footer card-title border-0 h6 bg-white floor-price-collection-card-${NFTSlug}">--
+            <div class="card-footer card-title border-0 h6 p-1 bg-white floor-price-collection-card-${NFTSlug}">--
             </div>
           </div>`
           ;
@@ -150,15 +141,19 @@
             document.getElementById(NFTID+'-'+NFTCollection).innerHTML = NFTCollection;
             document.getElementById(NFTID+'-'+NFTtopBid).innerHTML = NFTtopBid;
         }
+        if(i==(NFTAssets.assets.length-1))
+        {
+          updateStats();
+        }
 
       }
-
       if(firstupdate===1 && NFTCollections.length>1)
       {
         console.log("updating stats");
         updateStats();
       }
       console.log(NFTCollections);
+
 }
 
 async function renderCollectionCards()
