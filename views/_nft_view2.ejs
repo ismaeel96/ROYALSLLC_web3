@@ -277,7 +277,7 @@ async function updateStats()
                                 <summary>30D Volume: ${Math.round((thirty_day_change*100) * 100) / 100}%</summary>
                                 Sales: ${thirty_day_sales}
                                 <br>
-                                Volume: <i class="fa-brands fa-ethereum"></i> ${nFormatter(thirty_day_volume, 2)} $${Math.round((thirty_day_volume*1090) * 100) / 100}
+                                Volume: <i class="fa-brands fa-ethereum"></i> ${nFormatter(thirty_day_volume, 2)} $${nFormatter((thirty_day_volume*1090), 2)}
                                 <br>
                                 Avg. Price: <i class="fa-brands fa-ethereum"></i> ${nFormatter(thirty_day_average_price, 2)} $${nFormatter((thirty_day_average_price*1090), 2)}
                               </details>
