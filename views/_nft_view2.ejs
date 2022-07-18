@@ -218,7 +218,7 @@ async function updateStats()
                   for (var ii=0; ii<matches.length; ii++)
                   {
                     NFT_Value += Number(NFTStatsJSONObj.stats.floor_price);
-                    matches.item(ii).innerHTML = '<i class="fa-brands fa-ethereum"></i> '+NFTStatsJSONObj.stats.floor_price;
+                    matches.item(ii).innerHTML = '<i class="fa-brands fa-ethereum"></i> '+nFormatter(NFTStatsJSONObj.stats.floor_price,2);
                     console.log(`floor-price-${NFTCollections[i]} : ${NFTStatsJSONObj.stats.floor_price}`);
                   }
                   let collectionrealname= document.getElementById(`slug_Name_${collectionname}`).innerHTML;
@@ -231,23 +231,23 @@ async function updateStats()
                           <div class="row m-1 bg-light">
                             <div class="col" >
                               <p>
-                                Supply: ${total_supply}
+                                Supply: ${nFormatter(total_supply,2)}
                                 <br>
-                                Owners: ${num_owners}
+                                Owners: ${nFormatter(num_owners,2)}
                               </p>
                             </div>
                             <div class="col">
                               <p>
-                                  Floor:  <i class="fa-brands fa-ethereum"></i> ${Math.round(floor_price * 1000) / 1000 } $${(Math.round((floor_price*1090) * 100) / 100)}
+                                  Floor:  <i class="fa-brands fa-ethereum"></i> ${nFormatter(floor_price,2)} $${nFormatter((floor_price*1090),2)}
                                 <br>
-                                  Avg. Price: <i class="fa-brands fa-ethereum"></i> ${Math.round(average_price * 1000) / 1000} $${(Math.round((average_price*1090) * 100) / 100)}
+                                  Avg. Price: <i class="fa-brands fa-ethereum"></i> ${nFormatter(average_price,2)} $${nFormatter((average_price*1090),2)}
                               </p>
                             </div>
                             <div class="col">
                               <p>
-                                  Sales: ${total_sales}
+                                  Sales: ${nFormatter(total_sales,2)}
                                   <br>
-                                  Market Cap: <i class="fa-brands fa-ethereum"></i> ${Math.round(market_cap * 1000) / 1000 } $${Math.round((market_cap*1090) * 100) / 100}
+                                  Market Cap: <i class="fa-brands fa-ethereum"></i> ${nFormatter(market_cap , 2)} $${nFormatter((market_cap*1090), 2)}
                               </p>
                             </div>
                           </div>
@@ -255,27 +255,27 @@ async function updateStats()
                             <div class="col p-2" >
                               <details open class="p-1 bg-light">
                                 <summary>24H Volume: ${Math.round((one_day_change*100) * 100) / 100}%</summary>
-                                Sales: ${one_day_sales}
+                                Sales: ${nFormatter(one_day_sales,1)}
                                 <br>
-                                Volume: <i class="fa-brands fa-ethereum"></i> ${Math.round(one_day_volume * 1000) / 1000 } $${Math.round((one_day_volume*1090) * 100) / 100 }
+                                Volume: <i class="fa-brands fa-ethereum"></i> ${nFormatter(one_day_volume,2)} $${nFormatter((one_day_volume*1090), 2)}
                                 <br>
-                                Avg. Price: <i class="fa-brands fa-ethereum"></i> ${Math.round(one_day_average_price * 1000) / 1000} $${Math.round((one_day_average_price*1090) * 100) / 100 }
+                                Avg. Price: <i class="fa-brands fa-ethereum"></i> $nFormatter(one_day_average_price,2)} $${nFormatter((one_day_average_price*1090),2)}
                               </details>
                             </div>
                             <div class="col p-2">
                               <details open class="p-1 bg-light">
                                 <summary>7D Volume: ${Math.round((seven_day_change*100) * 100) / 100 }%</summary>
-                                Sales: ${seven_day_sales}
+                                Sales: ${nFormatter(seven_day_sales, 1)}
                                 <br>
-                                Volume: <i class="fa-brands fa-ethereum"></i> ${Math.round(seven_day_volume * 1000) / 1000 } $${Math.round((seven_day_volume*1090) * 100) / 100 }
+                                Volume: <i class="fa-brands fa-ethereum"></i> ${nFormatter(seven_day_volume, 2)} $${nFormatter((seven_day_volume*1090), 2)}
                                 <br>
-                                Avg. Price: <i class="fa-brands fa-ethereum"></i> ${Math.round(seven_day_average_price * 1000) / 1000 } $${Math.round((seven_day_average_price*1090) * 100) / 100}
-                              </detailslass="p-1 bg-light">
+                                Avg. Price: <i class="fa-brands fa-ethereum"></i> ${nFormatter(seven_day_average_price, 2)} $${nFormatter((seven_day_average_price-1090), 2)}
+                              </details>
                             </div>
                             <div class="col p-2">
                               <details open class="p-1 bg-light">
                                 <summary>30D Volume: ${Math.round((thirty_day_change*100) * 100) / 100}%</summary>
-                                Sales: ${thirty_day_sales}
+                                Sales: ${nFormatter(thirty_day_sales, 1)}
                                 <br>
                                 Volume: <i class="fa-brands fa-ethereum"></i> ${nFormatter(thirty_day_volume, 2)} $${nFormatter((thirty_day_volume*1090), 2)}
                                 <br>
