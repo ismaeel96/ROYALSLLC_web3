@@ -42,7 +42,7 @@
       ];
       if(num<1)
       {
-        return num;
+        return (Math.round(num*1000)/1000);
       }
   const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   var item = lookup.slice().reverse().find(function(item) {
