@@ -289,12 +289,12 @@ async function updateStats()
                   </div>`;
 
                   document.getElementById('collection_stats_collapsed_container').innerHTML+=collection_Stats_collapsed_container_innerHTML;
-                  document.getElementsByClassName(`floor-price-collection-card-${collectionname}`)[0].innerHTML = `<i class="fa-brands fa-ethereum"></i> ${nformatter((floor_price*1),3)} $${nformatter((floor_price*1090),2)}`;
+                  document.getElementsByClassName(`floor-price-collection-card-${collectionname}`)[0].innerHTML = `<i class="fa-brands fa-ethereum"></i> ${nFormatter((floor_price*1),3)} $${nFormatter((floor_price*1090),2)}`;
 
 
               }
-              document.getElementById('NFT-total').innerHTML=`<i class="fa-brands fa-ethereum"></i> ${nformatter((NFT_Value*1),3)}`;
-              document.getElementById('NFT-total-usd').innerHTML=`$${nformatter((NFT_Value*1250),2)}`;
+              document.getElementById('NFT-total').innerHTML=`<i class="fa-brands fa-ethereum"></i> ${nFormatter((NFT_Value*1),3)}`;
+              document.getElementById('NFT-total-usd').innerHTML=`$${nFormatter((NFT_Value*1250),2)}`;
               console.log(NFT_Value);
   }
 
