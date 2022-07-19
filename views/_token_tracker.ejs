@@ -1,0 +1,73 @@
+<div class="container-fluid w-100 bg-light">
+	<div class="table table-responsive w-100 d-md-table">
+
+    <table class="table table-hover w-100">
+      <thead>
+				<div class="d-flex mb-3">
+					  <div class="p-2 card-title h4">24H Trending</div>
+					  <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refreshTrendingCounter" title="Seconds since last refresh">0</abbr></div>
+				</div>
+
+        <tr>
+          <th><abbr title="Token Name">Name</abbr></th>
+          <th><abbr title="Token Price in BTC">Balance</abbr></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th style="text-align: left;">
+			<div class="" id="_Name"></div>
+			<div class="" id="_Ticker"></div>
+		  </th>
+          <td style="text-align: left;" id=""></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  //api call
+  getText("https://api.coingecko.com/api/v3/search/trending");
+  var trendingSecCounter = 0;
+  //json parser and fill HTML text
+  async function getText(file) {
+    refreshTrendingCounter();
+    while (true)
+    {
+      let myObject = await fetch(file);
+      let myText = await myObject.text();
+      let btcObj = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
+      let btcMyText = await btcObj.text();
+      const obj = JSON.parse(myText);
+      const btcobj = JSON.parse(btcMyText)
+      var btcprice = btcobj.bitcoin.usd;
+      for (let i = 0; i < obj.coins.length; i++)
+      {
+        document.getElementById("trending"+(i+1)+"Name").innerHTML = obj.coins[i].item.name;
+        document.getElementById("trending"+(i+1)+"Symbol").innerHTML = obj.coins[i].item.symbol;
+        var priceSTR = ""+obj.coins[i].item.price_btc;
+        if(priceSTR.includes('e'))
+          {
+            document.getElementById("trending"+(i+1)+"Price").innerHTML ="$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto',precision: 4});
+          }
+          else
+          {
+            document.getElementById("trending"+(i+1)+"Price").innerHTML = "$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto', precision: 4});
+          }
+      }
+      await sleep(5000);
+      trendingSecCounter=0;
+    }
+  }
+  //refresh counter since successful api call
+  async function refreshTrendingCounter()
+  {
+    while (true)
+    {
+      document.getElementById("refreshTrendingCounter").innerHTML = trendingSecCounter;
+      await sleep(1000);
+      trendingSecCounter++;
+    }
+  }
+</script>
