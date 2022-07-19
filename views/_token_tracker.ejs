@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr id="token_watchlist">
           <th style="text-align: left;">
 			<div class="" id="_Name"></div>
 			<div class="" id="_Ticker"></div>
@@ -28,19 +28,16 @@
 
 <script>
   //api call
-  getText("https://api.coingecko.com/api/v3/search/trending");
+  getWatchlistApi("https://api.coingecko.com/api/v3/simple/price?ids=polkacity%2Cbitcoin%2Cethereum%2Cdecentral-games-ice%2Cgala&vs_currencies=usd&include_24hr_change=true");
   var trendingSecCounter = 0;
   //json parser and fill HTML text
-  async function getText(file) {
+  async function getWatchlistApi(file) {
     refreshTrendingCounter();
     while (true)
     {
       let myObject = await fetch(file);
       let myText = await myObject.text();
-      let btcObj = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
-      let btcMyText = await btcObj.text();
       const obj = JSON.parse(myText);
-      const btcobj = JSON.parse(btcMyText)
       var btcprice = btcobj.bitcoin.usd;
       for (let i = 0; i < obj.coins.length; i++)
       {
