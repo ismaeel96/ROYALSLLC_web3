@@ -4,23 +4,17 @@
     <table class="table table-hover w-100">
       <thead>
 				<div class="d-flex mb-3">
-					  <div class="p-2 card-title h4">24H Trending</div>
-					  <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refreshTrendingCounter" title="Seconds since last refresh">0</abbr></div>
+					  <div class="p-2 card-title h4">Token Tracker</div>
+					  <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refresh_token_tracker_counter" title="Seconds since last refresh">0</abbr></div>
 				</div>
 
         <tr>
           <th><abbr title="Token Name">Name</abbr></th>
-          <th><abbr title="Token Price in BTC">Balance</abbr></th>
+          <th><abbr title="Token Price in BTC">Value</abbr></th>
         </tr>
       </thead>
-      <tbody>
-        <tr id="token_watchlist">
-          <th style="text-align: left;">
-			<div class="" id="_Name"></div>
-			<div class="" id="_Ticker"></div>
-		  </th>
-          <td style="text-align: left;" id=""></td>
-        </tr>
+      <tbody id="token_watchlist">
+
       </tbody>
     </table>
   </div>
@@ -29,42 +23,55 @@
 <script>
   //api call
   getWatchlistApi("https://api.coingecko.com/api/v3/simple/price?ids=polkacity%2Cbitcoin%2Cethereum%2Cdecentral-games-ice%2Cgala&vs_currencies=usd&include_24hr_change=true");
-  var trendingSecCounter = 0;
+  let trackerSecCounter = 0;
+	refreshTokenTrackerCounter();
   //json parser and fill HTML text
   async function getWatchlistApi(file) {
-    refreshTrendingCounter();
     while (true)
     {
       let myObject = await fetch(file);
       let myText = await myObject.text();
-      const obj = JSON.parse(myText);
-      var btcprice = btcobj.bitcoin.usd;
-      for (let i = 0; i < obj.coins.length; i++)
+      const token_obj = JSON.parse(myText);
+
+			let tacker_obj_keys = Object.keys(token_obj)
+
+      for (let i = 0; i < tacker_obj_keys.length; i++)
       {
-        document.getElementById("trending"+(i+1)+"Name").innerHTML = obj.coins[i].item.name;
-        document.getElementById("trending"+(i+1)+"Symbol").innerHTML = obj.coins[i].item.symbol;
-        var priceSTR = ""+obj.coins[i].item.price_btc;
-        if(priceSTR.includes('e'))
-          {
-            document.getElementById("trending"+(i+1)+"Price").innerHTML ="$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto',precision: 4});
-          }
-          else
-          {
-            document.getElementById("trending"+(i+1)+"Price").innerHTML = "$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto', precision: 4});
-          }
+				let token_id=tacker_obj_keys[i];
+				if(document.getElementById(`${token_id}_Name`) == null)
+				{
+					let token_tracker_row = `
+					<tr>
+	          <th style="text-align: left;">
+							<div class="" id="${token_id}_Name">${token_id}</div>
+							<div class="muted" id="${token_id}_Ticker"></div>
+					  </th>
+	          <td style="text-align: left;" id="${token_id}_price">$${nFormatter(token_obj[token_id].usd,2)}</td>
+	        </tr>
+					`;
+						document.getElementById("token_watchlist").innerHTML += token_tracker_row;
+
+						console.log(token_obj[token_id].usd);
+						console.log(token_id);
+				}
+				else
+				{
+					document.getElementById(`${token_id}_price`).innerHTML = "$"+nFormatter(token_obj[token_id].usd,3);
+				}
+
       }
       await sleep(5000);
-      trendingSecCounter=0;
+      trackerSecCounter=0;
     }
   }
   //refresh counter since successful api call
-  async function refreshTrendingCounter()
+  async function refreshTokenTrackerCounter()
   {
     while (true)
     {
-      document.getElementById("refreshTrendingCounter").innerHTML = trendingSecCounter;
+      document.getElementById("refresh_token_tracker_counter").innerHTML = trackerSecCounter;
       await sleep(1000);
-      trendingSecCounter++;
+      trackerSecCounter++;
     }
   }
 </script>
