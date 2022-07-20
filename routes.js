@@ -1,7 +1,8 @@
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const throttle = require('fetch-throttle');
 
-const fetchThrottle = throttle(fetch, 3, 1000);
+const OS_fetchThrottle = throttle(fetch, 4, 1100);
+const coingecko_fetchThrottle = throttle(fetch, 4, 1100);
 
 var express = require("express");
 var router = express.Router();
@@ -26,7 +27,7 @@ router.get('/web3/api/', function (req, res) {
   //console.log("Age:", req.query.age);
 
 
-  fetchData(req.query.apiCall)
+  fetch_OS_Data(req.query.apiCall)
       .then(function(serverPromise){
         serverPromise.json()
           .then(function(j) {
@@ -43,9 +44,7 @@ router.get('/web3/api/', function (req, res) {
 });
 
 
-
-
-async function fetchData(x) {
+async function fetch_OS_Data(x) {
   //console.log(x);
   await s.acquire()
 
@@ -55,7 +54,7 @@ async function fetchData(x) {
     let ux = "--";
     //let recobj=fetch(x);
 
-    const response = await fetchThrottle(x);
+    const response = await OS_fetchThrottle(x);
     //console.log(response);
     //const body = await response.text();
 
