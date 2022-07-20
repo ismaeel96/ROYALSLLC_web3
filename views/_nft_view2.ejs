@@ -311,7 +311,7 @@ async function updateStats()
        ETH_USD_OBJ = JSON.parse(ETH_USD_call_text);
        ETH_USD = ETH_USD_OBJ.ethereum.usd;
        //updateStats()
-       sleep(5000);
+       await sleep(5000);
     }
   }
 
