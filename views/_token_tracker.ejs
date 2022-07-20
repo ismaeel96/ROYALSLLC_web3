@@ -10,7 +10,7 @@
 
         <tr>
           <th><abbr title="Token Name">Name</abbr></th>
-          <th><abbr title="Token Price in BTC">Value</abbr></th>
+          <th style="text-align: right;"><abbr title="Token Price in USD">Price</abbr></th>
         </tr>
       </thead>
       <tbody id="token_watchlist">
@@ -45,8 +45,8 @@
 	          <th style="text-align: left;">
 							<div class="" id="${token_id}_Name">${token_id}</div>
 							<div class="muted" id="${token_id}_Ticker"></div>
-					  </th>
-	          <td style="text-align: left;" id="${token_id}_price">$${nFormatter(token_obj[token_id].usd,2)}</td>
+					  </th >
+	          <td style="text-align: right;" id="${token_id}_price">$${nFormatter(token_obj[token_id].usd,2)}</td>
 	        </tr>
 					`;
 						document.getElementById("token_watchlist").innerHTML += token_tracker_row;
