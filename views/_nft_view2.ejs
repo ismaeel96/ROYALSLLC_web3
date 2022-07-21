@@ -83,7 +83,8 @@ function clearOldData()
             <div class="card-body p-1">
                 <p class="card-title h6 text-truncate d-inline-block" style="max-width:100%" id="slug_Name_${NFTSlug}">${NFTCollection}</p>
             </div>
-            <div class="card-footer card-title border-0 h6 p-1 bg-white floor-price-collection-card-${NFTSlug}">--
+            <div class="placeholder-glow card-footer card-title border-0 h6 p-1 bg-white floor-price-collection-card-${NFTSlug}">
+              <span class="placeholder col-4"></span>
             </div>
           </div>`
           ;
@@ -121,7 +122,9 @@ function clearOldData()
             </thead>
             <tbody>
               <tr>
-                <td class="floor-price-${NFTSlug}" scope="row">--</td>
+                <td class="placeholder-glow floor-price-${NFTSlug}" scope="row">
+                  <span class="placeholder col-4"></span>
+                </td>
                 <td></td>
                 <td></td>
                 <td id="${NFTID}-${NFTtopBid}">${NFTtopBid}</td>
