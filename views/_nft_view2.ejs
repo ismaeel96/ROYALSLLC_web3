@@ -221,7 +221,7 @@ async function updateStats()
                   for (var ii=0; ii<matches.length; ii++)
                   {
                     NFT_Value += Number(NFTStatsJSONObj.stats.floor_price);
-                    matches.item(ii).innerHTML = '<i class="fa-brands fa-ethereum"></i> '+nFormatter((NFTStatsJSONObj.stats.floor_price*1),3);
+                    matches.item(ii).innerHTML = '<i class="fa-brands fa-ethereum"></i>'+nFormatter((NFTStatsJSONObj.stats.floor_price*1),3);
                     console.log(`floor-price-${NFTCollections[i]} : ${NFTStatsJSONObj.stats.floor_price}`);
                   }
                   let collectionrealname= document.getElementById(`slug_Name_${collectionname}`).innerHTML;
