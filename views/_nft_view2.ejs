@@ -258,7 +258,7 @@ async function updateStats()
                             </div>
                           </div>
                           <div class="row p-2">
-                            <div class="col p-2" >
+                            <div class="col-12 col-sm-4 p-2" >
                               <details open class="p-1 bg-light">
                                 <summary>24H Volume: ${Math.round((one_day_change*100) * 100) / 100}%</summary>
                                 Sales: ${nFormatter(one_day_sales,1)}
@@ -268,7 +268,7 @@ async function updateStats()
                                 Avg. Price: <i class="fa-brands fa-ethereum"></i>${nFormatter(one_day_average_price,2)} $${nFormatter((one_day_average_price*ETH_USD),2)}
                               </details>
                             </div>
-                            <div class="col p-2">
+                            <div class="col-12 col-sm-4 p-2">
                               <details open class="p-1 bg-light">
                                 <summary>7D Volume: ${Math.round((seven_day_change*100) * 100) / 100 }%</summary>
                                 Sales: ${nFormatter(seven_day_sales, 1)}
@@ -278,7 +278,7 @@ async function updateStats()
                                 Avg. Price: <i class="fa-brands fa-ethereum"></i>${nFormatter(seven_day_average_price, 2)} $${nFormatter((seven_day_average_price*ETH_USD), 2)}
                               </details>
                             </div>
-                            <div class="col p-2">
+                            <div class="col-12 col-sm-4 p-2">
                               <details open class="p-1 bg-light">
                                 <summary>30D Volume: ${Math.round((thirty_day_change*100) * 100) / 100}%</summary>
                                 Sales: ${nFormatter(thirty_day_sales, 1)}
