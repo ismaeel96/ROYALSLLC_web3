@@ -33,13 +33,13 @@
 			
 			let get_nft_assets_headers = new Headers();
 			get_nft_assets_headers.set('Content-type', 'application/json');
-			const NFTStatsAPIOptions =
+			const get_nft_assets_options =
 			{
 				method: 'GET',
 				headers: get_nft_assets_headers,
 			};
 			//console.log(NFTStatsAPIOptions.toString());
-			let get_nft_assets_response = await fetch(tempURL,NFTStatsAPIOptions);
+			let get_nft_assets_response = await fetch(tempURL,get_nft_assets_options);
 			let get_nft_assets_text = await get_nft_assets_response.text();
 			const get_nft_assets_obj = JSON.parse(get_nft_assets_text);
 		
