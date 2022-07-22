@@ -43,7 +43,8 @@
 			let get_nft_assets_text = await get_nft_assets_response.text();
 			const get_nft_assets_obj = JSON.parse(get_nft_assets_text);
 		
-			NFTAssets = JSON.parse(get_nft_assets_text);
+			NFTAssets = get_nft_assets_response;
+			console.log(NFTAssets);
 			renderNFTCards();
 		}
 	}
