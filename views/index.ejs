@@ -1,7 +1,7 @@
 <%- include('_header'); -%>
 <div class="container-fluid">
   <div class="row align-items-start">
-    <div class="col-md-9 col-lg-9 col-xl-9 col-xxl-9 col-sm-12 col-12 card-deck">
+    <div class="col-md-10 col-12 card-deck">
 
       <div class="section py-2 px-0">
         <div class="card px-3" style="width: 12rem;">
@@ -17,9 +17,6 @@
         </div>
 
       </div>
-
-
-
       <div class="px-3 row py-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
 
       </div>
@@ -47,24 +44,19 @@
         </div>
 
         <div class="tab-pane fade" id="nfts-tab-pane" role="tabpanel" aria-labelledby="nfts-tab" tabindex="0">
-            <%- include('_nft_view2'); -%>
+          <%- include('_nft_view2'); -%>
         </div>
 
         <div class="tab-pane fade" id="widgets-tab-pane" role="tabpanel" aria-labelledby="widgets-tab" tabindex="0">
 
         </div>
       </div>
-
-
-
-
-
     </div>
-    <div class="col-3 d-none d-sm-none d-lg-block d-md-block d-xl-block d-xxl-block border-left border border-black">
-        <p class="card-title text-center h1 py-2">Widgets</p>
-        <%- include('_gas_tracker'); -%>
-          <%- include('_token_tracker'); -%>
-        <%- include('_24h_trending'); -%>
+    <div class="col-2 d-none d-sm-none d-lg-block d-md-block d-xl-block d-xxl-block border border-start border-bottom-0 border-top-0 border-end-0 border-black">
+      <p class="card-title text-center h1 py-2">Widgets</p>
+      <%- include('_gas_tracker'); -%>
+      <%- include('_token_tracker'); -%>
+      <%- include('_24h_trending'); -%>
     </div>
   </div>
 
