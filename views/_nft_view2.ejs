@@ -14,33 +14,39 @@
 	let NFTAssets = {};
 	let ETH_USD=1000;
 	ETH_USDrefresh();
-
 	let NFTStatsApiPromisesToBeCalled = [];
 	const collectionAPICall = "https://api.opensea.io/api/v1/collection/";
-
 	//getNFTFromAddress(address_lookup_input);
 	//renderNFTCards();
-
 	const scrollContainer = document.getElementById("Collection_Stats_Container");
 	scrollContainer.addEventListener("wheel", (evt) => {
 		evt.preventDefault();
 		scrollContainer.scrollLeft += evt.deltaY;
 	}, {passive: false});
-
 	//json parser and fill HTML text
 	async function getNFTFromAddress()
 	{
 		if(clearOldData())
 		{
 			address=document.getElementById('address_lookup_search').value;
-			let NFTCallOBJ = await fetch(opensea_assets_apiCall+address);
-			let NFTCallText = await NFTCallOBJ.text();
-
-			NFTAssets = JSON.parse(NFTCallText);
+			let tempURL = `/web3/api?apiCall=${opensea_assets_apiCall}${address}`;
+			
+			let get_nft_assets_headers = new Headers();
+			get_nft_assets_headers.set('Content-type', 'application/json');
+			const NFTStatsAPIOptions =
+			{
+				method: 'GET',
+				headers: get_nft_assets_headers,
+			};
+			//console.log(NFTStatsAPIOptions.toString());
+			let get_nft_assets_response = await fetch(tempURL,NFTStatsAPIOptions);
+			let get_nft_assets_text = await get_nft_assets_response.text();
+			const get_nft_assets_obj = JSON.parse(get_nft_assets_text);
+		
+			NFTAssets = JSON.parse(get_nft_assets_text);
 			renderNFTCards();
 		}
 	}
-
 	function clearOldData()
 	{
 		document.getElementById('NFTCardsContainerToBeFilled').innerHTML='';
@@ -48,10 +54,8 @@
 		document.getElementById('collection_stats_collapsed_container').innerHTML='';
 		NFTAssets = {};
 		NFTCollections = [];
-
 		return true;
 	}
-
 	async function renderNFTCards()
 	{
 		for (let i = 0; i < NFTAssets.assets.length; i++)
@@ -64,17 +68,14 @@
 			let NFTtopBid =NFTAssets.assets[i].top_bid;
 			let NFTSlug = NFTAssets.assets[i].collection.slug;
 			let NFTCollectionBanner = NFTAssets.assets[i].collection.banner_image_url;
-
 			if(!NFTCollections.includes(NFTSlug))
 			{
 				console.log('adding ' + NFTSlug +' to array');
 				NFTCollections.push(NFTSlug);
-
 				if(NFTCollectionBanner==null)
 				{
 					NFTCollectionBanner='https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/64px-HD_transparent_picture.png';
 				}
-
 				let collection_Stats_container_innerHTML =`
 				<div id="Collection_stats_${NFTSlug}" class="col-5 card" style="width: 9rem;padding-right: 0; padding-left: 0;" data-bs-toggle="collapse" data-bs-target="#collapsed_stats_${NFTSlug}" aria-expanded="false" aria-controls="collapsed_stats_${NFTSlug}">
 					<div  class="ratio ratio-16x9" style>
@@ -90,14 +91,11 @@
 				;
 				document.getElementById('Collection_Stats_Container').innerHTML+=collection_Stats_container_innerHTML;
 			}
-
 			let NFTCollectionURL = "https://opensea.io/collection/"+NFTSlug;
-
 			if(NFTtopBid==null)
 			{
 				NFTtopBid="N/A";
 			}
-
 			let NFTCardContent = `
 			<div class="d-flex col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 gap-0 justify-content-center justify-content-sm-start p-1 py-2 border-0">
 				<div id="${NFTID}" class="card w-100">
@@ -134,7 +132,6 @@
 					</table>
 				</div>
 			</div>`;
-
 			if (document.getElementById(NFTID)==null)
 			{
 				document.getElementById('NFTCardsContainerToBeFilled').innerHTML += NFTCardContent;
@@ -153,7 +150,6 @@
 			{
 				updateStats();
 			}
-
 		}
 		if(firstupdate===1 && NFTCollections.length>1)
 		{
@@ -161,18 +157,13 @@
 			updateStats();
 		}
 		console.log(NFTCollections);
-
 	}
-
 	async function renderCollectionCards()
 	{
 	}
-
 	async function getCollections(ETHaddress)
 	{
-
 	}
-
 	async function updateStats()
 	{
 		firstupdate=0;
@@ -184,7 +175,6 @@
 			let collectionname= NFTCollections[i];
 			let tempURL = `/web3/api?apiCall=${collectionAPICall}${collectionname}/stats`;
 			const NFSTStatsCallAPIdata = { apiCall: tempURL};
-
 			let headers = new Headers();
 			headers.set('Content-type', 'application/json');
 			const NFTStatsAPIOptions =
@@ -193,12 +183,9 @@
 				headers: headers,
 			};
 			//console.log(NFTStatsAPIOptions.toString());
-
 			let NFSTStatsCallAPI = await fetch(tempURL,NFTStatsAPIOptions);//NFSTStatsCallAPIdata );
-
 			let NFTStatsCallSText = await NFSTStatsCallAPI.text();
 			const NFTStatsJSONObj = JSON.parse(NFTStatsCallSText);
-
 			let one_day_volume = Number(NFTStatsJSONObj.stats.one_day_volume);
 			let one_day_change = Number(NFTStatsJSONObj.stats.one_day_change);
 			let one_day_sales = Number(NFTStatsJSONObj.stats.one_day_sales);
@@ -220,9 +207,7 @@
 			let num_reports = Number(NFTStatsJSONObj.stats.num_reports);
 			let market_cap = Number(NFTStatsJSONObj.stats.market_cap);
 			let floor_price = Number(NFTStatsJSONObj.stats.floor_price);
-
 			let matches = document.getElementsByClassName(`floor-price-${NFTCollections[i]}`);
-
 			for (var ii=0; ii<matches.length; ii++)
 			{
 				NFT_Value += Number(NFTStatsJSONObj.stats.floor_price);
@@ -295,29 +280,23 @@
 					</div>
 				</div>
 			</div>`;
-
 			document.getElementById('collection_stats_collapsed_container').innerHTML+=collection_Stats_collapsed_container_innerHTML;
 			document.getElementsByClassName(`floor-price-collection-card-${collectionname}`)[0].innerHTML = `<i class="fa-brands fa-ethereum"></i>${nFormatter((floor_price*1),3)} $${nFormatter((floor_price*ETH_USD),2)}`;
-
-
 		}
 		document.getElementById('NFT-total').innerHTML=`<i class="fa-brands fa-ethereum"></i>${nFormatter((NFT_Value*1),3)}`;
 		document.getElementById('NFT-total-usd').innerHTML=`$${nFormatter((NFT_Value*ETH_USD),2)}`;
 		console.log(NFT_Value);
 	}
-
 	async function ETH_USDrefresh()
 	{
 		while(true)
 		{
 			let ETH_USD_call_OBJ = await fetch(coingeckoEthAPICall);
 			let ETH_USD_call_text = await ETH_USD_call_OBJ.text();
-
 			ETH_USD_OBJ = JSON.parse(ETH_USD_call_text);
 			ETH_USD = ETH_USD_OBJ.ethereum.usd;
 			//updateStats()
 			await sleep(5000);
 		}
 	}
-
 </script>
