@@ -32,22 +32,8 @@
 	{
 		if(clearOldData())
 		{
-			
 			address=document.getElementById('address_lookup_search').value;
-			
-			let tempURL = `/web3/api?apiCall=${opensea_assets_apiCall}${address}`;
-			const NFSTStatsCallAPIdata = { apiCall: tempURL};
-			let headers = new Headers();
-			headers.set('Content-type', 'application/json');
-			const NFTStatsAPIOptions =
-			{
-				method: 'GET',
-				headers: headers,
-			};
-			//console.log(NFTStatsAPIOptions.toString());
-			//let NFSTStatsCallAPI = await fetch(tempURL,NFTStatsAPIOptions);//NFSTStatsCallAPIdata );
-			
-			let NFTCallOBJ = await fetch(tempURL,NFTStatsAPIOptions);//NFSTStatsCallAPIdata );
+			let NFTCallOBJ = await fetch(opensea_assets_apiCall+address);
 			let NFTCallText = await NFTCallOBJ.text();
 
 			NFTAssets = JSON.parse(NFTCallText);
