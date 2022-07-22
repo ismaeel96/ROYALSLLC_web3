@@ -25,9 +25,10 @@ res.render("index");
 router.get('/web3/api/', function (req, res) {
   console.log(req.query.apiCall);
   //console.log("Age:", req.query.age);
+  let address = "";
+  address += req.query.owner;
 
-
-  fetch_OS_Data(req.query.apiCall)
+  fetch_OS_Data(req.query.apiCall+address)
       .then(function(serverPromise){
         serverPromise.json()
           .then(function(j) {
