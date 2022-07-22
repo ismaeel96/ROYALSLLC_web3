@@ -35,7 +35,6 @@
 			
 			address=document.getElementById('address_lookup_search').value;
 			
-			let collectionname= NFTCollections[i];
 			let tempURL = `/web3/api?apiCall=${opensea_assets_apiCall}${address}`;
 			const NFSTStatsCallAPIdata = { apiCall: tempURL};
 			let headers = new Headers();
