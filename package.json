@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@alch/alchemy-sdk": "^1.0.8",
     "api": "^4.5.1",
     "async-sema": "^3.1.1",
     "ejs": "^3.1.8",
