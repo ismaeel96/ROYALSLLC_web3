@@ -1,55 +1,91 @@
+<div class="w-100 p-3">
+	<div class="table table-responsive w-100 d-md-table">
 
-<table class="table table-hover w-100 ">
-  <thead>
-    <div class="d-flex mb-3">
-        <div class="p-2 card-title h4">Gas Tracker</div>
-        <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="" title="Seconds since last refresh">0</abbr></div>
-    </div>
+    <table class="table table-hover w-100 bg-light">
+      <thead>
+        <tr>
+          <th><abbr title="Token Name">Name</abbr></th>
+          <th style="text-align: right;"><abbr title="Token Price in USD">Balance</abbr></th>
+        </tr>
+      </thead>
+      <tbody id="wallet_tokens">
 
-    <tr class="w-100">
-      <th><abbr title="estimated speed for transaction to complete">Ticker/Price</abbr></th>
-      <th><abbr title="estimated speed for transaction to complete">Name</abbr></th>
-      <th><abbr title="Gwei is used to measure the cost of transactions on the Ethereum network">Gwei</abbr></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th >Slow</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td style="text-align: left;" id=""></td>
-    </tr>
-    <tr>
-      <th>Medium</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td style="text-align: left;" id=""></td>
-    </tr>
-    <tr>
-      <th >Fast</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td style="text-align: left;" id=""></td>
-    </tr>
-    <tr>
-      <th >Suggested</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td style="text-align: left;" id=""></td>
-    </tr>
-  </tbody>
-</table>
-
-
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <script>
+	let refresh_wallet_counter_seconds = 0;
+	let refresh_wallet_counter_first_run = true;
+	async function get_wallet_tokens()//eth_address
+	{
+		let eth_address= document.getElementById('address_lookup_search').value;
+		let wallet_tokens_api_url = `/web3/api/wallet_tokens?address=${eth_address}`;
 
+		let headers = new Headers();
+		headers.set('Content-type', 'application/json');
+		const wallet_tokens_api_options =
+		{
+			method: 'GET',
+			headers: headers,
+		};
+
+		let wallet_tokens_api_call = await fetch(wallet_tokens_api_url, wallet_tokens_api_options);
+		let wallet_tokens_api_call_text = await wallet_tokens_api_call.text();
+		const wallet_tokens_api_response_json_obj = JSON.parse(wallet_tokens_api_call_text);
+
+		for (let i = 0; i < wallet_tokens_api_response_json_obj.length; i++)
+		{
+			let token_name = wallet_tokens_api_response_json_obj[i].token.name;
+			let token_symbol = wallet_tokens_api_response_json_obj[i].token.symbol;
+			let token_balance = wallet_tokens_api_response_json_obj[i].token.balance;
+			let token_id = wallet_tokens_api_response_json_obj[i].token.id;
+			let token_platform = wallet_tokens_api_response_json_obj[i].token.platform;
+			let token_contract = wallet_tokens_api_response_json_obj[i].token.contract;
+
+			if(document.getElementById(`wallet_${token_id}`) == null)
+			{
+				let wallet_token_row = `
+				<tr id="wallet_${token_id}">
+				    	<th style="text-align: left;">
+						<div class="" id="wallet_${token_id}_Name">${token_symbol}</div>
+						<div class="fw-semibold text-muted" id="wallet_${token_id}_Ticker">${token_name}</div>
+			  		</th >
+
+				    	<td style="text-align: right;" >
+						<div class="" id="wallet_${token_id}_balance">${nFormatter(token_balance,3)}</div>
+						<div class="text-muted" id="wallet_${token_id}_balance_usd">$----</div>
+					</td>
+			  	</tr>
+				`;
+					document.getElementById("wallet_tokens").innerHTML += wallet_token_row;
+			}
+			else
+			{
+				document.getElementById(`wallet_${token_id}_balance`).innerHTML = nFormatter(token_balance,3);
+				document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = "$----";
+			}
+		}
+		if(refresh_wallet_counter_first_run)
+		{
+			refresh_wallet_counter();
+			refresh_wallet_counter_first_run = false;
+		}
+		else
+		{
+			refresh_wallet_counter_seconds=0
+		}
+	}
+
+	//refresh counter since successful api call
+	async function refresh_wallet_counter()
+	{
+		while (true)
+		{
+			document.getElementById("refresh_wallet_counter").innerHTML = refresh_wallet_counter_seconds;
+			await sleep(1000);
+			refresh_wallet_counter_seconds++;
+		}
+	}
 </script>

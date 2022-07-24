@@ -24,13 +24,13 @@
     <script src="https://kit.fontawesome.com/f3c062c5b5.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjs@8.0.1/lib/browser/math.js"  crossorigin="anonymous"></script>
     <script>
-    
+
     //sleep helper
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
-    
-    function nFormatter(num, digits) 
+
+    function nFormatter(num, digits)
     {
       const lookup = [
         { value: 1, symbol: "" },
@@ -55,6 +55,11 @@
       //let address_lookup_input = document.getElementById('address_lookup_search').value;
 
       //value="0xb1675086bd4a199e28b87E2bBDa9C825116da78F"
+	function search_address()
+	{
+		getNFTFromAddress();
+		get_wallet_tokens();
+	}
     </script>
   </head>
 
@@ -74,7 +79,7 @@
                 <!--<a href="#" class="nav-item nav-link">Register</a>-->
 
                   <input id="address_lookup_search" autocomplete="on" class="form-control me-2"  type="search" placeholder="Search" aria-label="Search">
-                  <button id="address_lookup_search_button" onclick="getNFTFromAddress();" class="btn bg-black text-white" type="submit"><i class="fa fa-magnifying-glass"></i></i></button>
+                  <button id="address_lookup_search_button" onclick="search_address();" class="btn bg-black text-white" type="submit"><i class="fa fa-magnifying-glass"></i></i></button>
 
             </div>
         </div>

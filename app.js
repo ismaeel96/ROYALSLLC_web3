@@ -2,7 +2,7 @@ var express = require("express");
 var path = require("path");
 var routes = require("./routes");
 var app = express();
-var alchemyAPI = require("./alchemyAPI");
+//var alchemyAPI = require("./alchemyAPI");
 
 global.coingecko_token_list = {};
 global.coingecko_token_list_id_Metadata={};
@@ -65,19 +65,39 @@ app.listen(app.get("port"), function(){
 					coingecko_token_list_binance_contracts.push("\""+element.platforms['binance-smart-chain']+"\"");
 				}
 			});
-			console.log(coingecko_token_list_ethereum_contracts);
+			//console.log(coingecko_token_list_ethereum_contracts);
 
+
+			//get_token_balances();
 
 		})
 		.catch(function(e){
 			console.log(e);
 		});
-		alchemyAPI.getMainNetBalances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F");
+		//alchemyAPI.getMainNetBalances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F");
+
+
+
+
+
+
+
+
+		//console.log("1st ",get_token_balances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F"));
 	})
 	.catch(function(e){
 		console.log(e);
 	});
+
 });
+
+/*async function get_token_balances()
+{
+	//let text = await  alchemyAPI.axios_test("0xb1675086bd4a199e28b87E2bBDa9C825116da78F");
+	let text2 = await  alchemyAPI.get_all_balances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F");
+	console.log(text2);
+	return text2;
+}*/
 
 async function fetch_CG_tokenList() {
 	await s.acquire()
@@ -94,9 +114,5 @@ async function fetch_CG_tokenList() {
 		s.release();
 	}
 }
-/*
-"params":[
-	"0xb1675086bd4a199e28b87E2bBDa9C825116da78F"
-		["0xef938b6da8576a896f6E0321ef80996F4890f9c4"]
-	]
-*/
+
+//get_token_balances()

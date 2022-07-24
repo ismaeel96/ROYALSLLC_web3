@@ -4,6 +4,8 @@
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
+const axios = require('axios').default;
+
 // Replace with your Alchemy API key:
 const apiKey = "_fQ_Rk92RmQeahUmiLplhr3tDPcI9c4V";
 
@@ -11,65 +13,20 @@ const web3 = createAlchemyWeb3(`https://eth-mainnet.g.alchemy.com/v2/${apiKey}`)
 
 let dec = parseInt("hex string response", 16)
 
-json_string_builder=`{`;
+
 
 async function get_all_balances(ethereum_address)
 {
+	//var json_string_builder ='';
 
+	let json_ethereum_string_builder = await getMainNetBalances(ethereum_address);
+	let json_polygon_string_builder = await get_polygon_balances(ethereum_address);
+
+	json_string_builder= await JSON.parse(`[${json_ethereum_string_builder}${json_polygon_string_builder}]`);
+
+
+	return json_string_builder;
 }
-
-async function get_polygon_balances(ethereum_address)
-{
-	json_string_builder+=`
-	"ethereum":
-	{
-		"id":	"polygon",
-		"symbol": "MATIC",
-		"name": "Polygon",
-		"balance":"null",
-		"contract":"",
-		"platform":"polygon"
-	}`;
-
-	getPolygonBalancesHelper(ethereum_address)
-	    .then(function(serverPromise){
-		serverPromise.json()
-		  .then(function(j)
-		  {
-			const nonZeroBalances =	j.result['tokenBalances'].filter(token => {return token['tokenBalance'] !== '0x0000000000000000000000000000000000000000000000000000000000000000'});
-			nonZeroBalances.forEach((element,i)=>
-			{
-				const foo = coingecko_token_list.filter(d => d.platforms['polygon-pos'] == element.contractAddress);
-
-				json_string_builder+=`,
-				"${foo[0].id}":
-				{
-					"id":	"${foo[0].id}",
-					"symbol": "${foo[0].symbol}",
-					"name": "${foo[0].name}",
-					"balance":"${((element.tokenBalance)/(10**18))}",
-					"contract":"${element.contractAddress}",
-					"platform":"polygon"
-				}`;
-			});
-			json_string_builder+=`}`;
-			jsonObj=JSON.parse(json_string_builder);
-			console.log(jsonObj);
-		    //res.send(j);
-		  })
-		  .catch(function(e){
-		    console.log(e);
-		  });
-	    })
-	    .catch(function(e){
-		  console.log(e);
-	  });
-
-
-
-
-}
-
 async function getMainNetBalances(ethereum_address)
 {
 	// Initialize an alchemy-web3 instance:
@@ -82,8 +39,8 @@ async function getMainNetBalances(ethereum_address)
 	//json_string_builder=`{`;
 	const nonZeroBalances =	token_balances['tokenBalances'].filter(token => {return token['tokenBalance'] !== '0'});
 
-	json_string_builder+=`
-	"ethereum":
+	ethereum_main_balances=`
+	{"token":
 	{
 		"id":	"ethereum",
 		"symbol": "ETH",
@@ -91,14 +48,14 @@ async function getMainNetBalances(ethereum_address)
 		"balance":"${eth_balance/(10**18)}",
 		"contract":"",
 		"platform":"ethereum"
-	}`;
+	}}`;
 
 	nonZeroBalances.forEach((element,i)=>
 	{
 		const foo = coingecko_token_list.filter(d => d.platforms.ethereum == element.contractAddress);
 
-		json_string_builder+=`,
-		"${foo[0].id}":
+		ethereum_main_balances+=`,
+		{"token":
 		{
 			"id":	"${foo[0].id}",
 			"symbol": "${foo[0].symbol}",
@@ -106,12 +63,13 @@ async function getMainNetBalances(ethereum_address)
 			"balance":"${((element.tokenBalance)/(10**18))}",
 			"contract":"${element.contractAddress}",
 			"platform":"ethereum"
-		}`;
+		}}`;
 	});
-	json_string_builder+=`}`;
+	//json_string_builder+=`}`;
 
-	jsonObj=JSON.parse(json_string_builder);
-	console.log(jsonObj);
+	//jsonObj=JSON.parse(json_string_builder);
+	//console.log(jsonObj);
+	return ethereum_main_balances;
 }
 
 // Example POST method implementation:
@@ -119,19 +77,74 @@ async function getPolygonBalancesHelper(ethereum_address)
 {
 	let url= "https://polygon-mainnet.g.alchemyapi.io/v2/7qi0_FvsaxK-C6S1FitX8nYp2GQK01S6"
 
-	const response = await fetch(url, {
+	/*const response = await fetch(url, {
 	  "headers": {
 	    "content-type": "application/json",
 	  },
 	  "body": `{"jsonrpc":"2.0","id":0,"method":"alchemy_getTokenBalances","params":["0xb1675086bd4a199e28b87E2bBDa9C825116da78F",[${coingecko_token_list_polygon_contracts}]]}`,
 	  "method": "POST"
-	});
+  });*/
+  /*const response = await fetch(url, {
+	    "headers": {
+		"content-type": "application/json",
+	    },
+	    "body": `{"jsonrpc":"2.0","id":0,"method":"alchemy_getTokenBalances","params":["0xb1675086bd4a199e28b87E2bBDa9C825116da78F","DEFAULT_TOKENS"]}`,
+	    "method": "POST"
+    });*/
+
+
+const response = await fetch("https://polygon-mainnet.g.alchemy.com/v2/GHDvgOcLW8-U_wwk5er-Lryn6jUjGz6V", {
+  "headers": {
+    "content-type": "application/json",
+  },
+  "body": "{\"jsonrpc\":\"2.0\",\"id\":0,\"method\":\"alchemy_getTokenBalances\",\"params\":[\"0xb1675086bd4a199e28b87E2bBDa9C825116da78F\",\"DEFAULT_TOKENS\"]}",
+  "method": "POST"
+});
+
+
+
 	return response; // parses JSON response into native JavaScript objects
+}
+
+async function get_polygon_balances(ethereum_address)
+{
+	alchemy_getTokenBalances = await axios({
+	  method: 'post',
+	  url: 'https://polygon-mainnet.g.alchemy.com/v2/GHDvgOcLW8-U_wwk5er-Lryn6jUjGz6V',
+	  data: {
+		jsonrpc : '2.0',
+	    	id: '0',
+	    	method: 'alchemy_getTokenBalances',
+		params: [`${ethereum_address}`, `DEFAULT_TOKENS`]
+	  }
+	});
+
+	const nonZeroBalances =	alchemy_getTokenBalances.data.result['tokenBalances'].filter(token => {return token['tokenBalance'] !== '0x0000000000000000000000000000000000000000000000000000000000000000'});
+
+	let polygon_balances = ``;
+	for (let i = 0; i < nonZeroBalances.length; i++)
+	{
+		const foo = coingecko_token_list.filter(d => d.platforms['polygon-pos'] == nonZeroBalances[i].contractAddress);
+	  	polygon_balances += `,
+		{"token":
+		{
+			"id":	"${foo[0].id}",
+			"symbol": "${foo[0].symbol}",
+			"name": "${foo[0].name}",
+			"balance":"${((nonZeroBalances[i].tokenBalance)/(10**18))}",
+			"contract":"${nonZeroBalances[i].contractAddress}",
+			"platform":"polygon"
+		}}`;
+	}
+
+	//console.log(polygon_balances);
+	return polygon_balances;
 }
 
 
 module.exports = {
-	getMainNetBalances,
+	get_all_balances,
 	getPolygonBalancesHelper,
-	get_polygon_balances
+	get_polygon_balances,
+	getMainNetBalances
 };

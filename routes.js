@@ -7,6 +7,8 @@ const coingecko_fetchThrottle = throttle(fetch, 4, 1100);
 var express = require("express");
 var router = express.Router();
 
+var alchemyAPI = require("./alchemyAPI");
+
 //import fetch from "node-fetch";
 //import {RateLimit} from "async-sema";
 const { Sema } = require('async-sema');
@@ -41,6 +43,21 @@ router.get('/web3/api/', function (req, res) {
       .catch(function(e){
           console.log(e);
         });
+});
+
+router.get('/web3/api/wallet_tokens', function (req, res) {
+  console.log(req.query.address);
+  //console.log("Age:", req.query.age);
+
+	alchemyAPI.get_all_balances(req.query.address)
+	.then(function(wallet_tokens_json){
+		console.log(wallet_tokens_json);
+		res.send(wallet_tokens_json);
+	})
+	.catch(function(e)
+	{
+          console.log(e);
+  	});
 });
 
 
