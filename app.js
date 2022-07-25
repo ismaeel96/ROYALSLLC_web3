@@ -6,9 +6,16 @@ var app = express();
 
 global.coingecko_token_list = {};
 global.coingecko_token_list_id_Metadata={};
+
 global.coingecko_token_list_polygon_contracts=[];
+global.coingecko_token_list_polygon_contracts_map="";
+
 global.coingecko_token_list_ethereum_contracts=[];
+global.coingecko_token_list_ethereum_contracts_map="";
+
 global.coingecko_token_list_binance_contracts=[];
+global.coingecko_token_list_binance_contracts_map="";
+
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const throttle = require('fetch-throttle');
 const coingecko_fetchThrottle = throttle(fetch, 4, 1100);
@@ -65,6 +72,9 @@ app.listen(app.get("port"), function(){
 					coingecko_token_list_binance_contracts.push("\""+element.platforms['binance-smart-chain']+"\"");
 				}
 			});
+			coingecko_token_list_ethereum_contracts_map = coingecko_token_list_ethereum_contracts.map((element) => `"${element}"`).join();
+			coingecko_token_list_polygon_contracts_map = coingecko_token_list_polygon_contracts.map((element) => `"${element}"`).join();
+			coingecko_token_list_binance_contracts_map = coingecko_token_list_binance_contracts.map((element) => `"${element}"`).join();
 			//console.log(coingecko_token_list_ethereum_contracts);
 
 
@@ -75,14 +85,6 @@ app.listen(app.get("port"), function(){
 			console.log(e);
 		});
 		//alchemyAPI.getMainNetBalances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F");
-
-
-
-
-
-
-
-
 		//console.log("1st ",get_token_balances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F"));
 	})
 	.catch(function(e){
