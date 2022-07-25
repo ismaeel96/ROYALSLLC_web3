@@ -22,44 +22,62 @@
 
 <script>
   //api call
-  getWatchlistApi("https://api.coingecko.com/api/v3/simple/price?ids=polkacity%2Cbitcoin%2Cethereum%2Cdecentral-games-ice%2Cgala&vs_currencies=usd&include_24hr_change=true");
+  let coingecko_api_token_usd = "https://api.coingecko.com/api/v3/simple/price?ids=";
+  getWatchlistApi();
   let trackerSecCounter = 0;
 	refreshTokenTrackerCounter();
   //json parser and fill HTML text
-  async function getWatchlistApi(file) {
+  async function getWatchlistApi() {
     while (true)
     {
-      let myObject = await fetch(file);
-      let myText = await myObject.text();
-      const token_obj = JSON.parse(myText);
+	    	coingecko_api_token_usd = "https://api.coingecko.com/api/v3/simple/price?ids=";
+	    	for (let i = 0; i < coingecko_ids_to_track.length; i++)
+          	{
+		    if(i===(coingecko_ids_to_track.length-1))
+		    {
+			    coingecko_api_token_usd+=`${coingecko_ids_to_track[i]}&vs_currencies=usd&include_24hr_change=true`;
+		    }
+		    else
+		    {
+		    	coingecko_api_token_usd+=`${coingecko_ids_to_track[i]}%2C`;
+		    }
+	    	}
+		console.log(coingecko_api_token_usd);
+	      let myObject = await fetch(coingecko_api_token_usd);
+	      let myText = await myObject.text();
+	      const token_obj = JSON.parse(myText);
 
-			let tacker_obj_keys = Object.keys(token_obj)
+				let tacker_obj_keys = Object.keys(token_obj)
 
-      for (let i = 0; i < tacker_obj_keys.length; i++)
-      {
-				let token_id=tacker_obj_keys[i];
-				if(document.getElementById(`${token_id}_Name`) == null)
-				{
-					let token_tracker_row = `
-					<tr>
-				          <th style="text-align: left;">
-										<div class="" id="${token_id}_Name">${token_id}</div>
-										<div class="muted" id="${token_id}_Ticker"></div>
-								  </th >
-				          <td style="text-align: right;" id="${token_id}_price">$${nFormatter(token_obj[token_id].usd,2)}</td>
-				        </tr>
-					`;
-						document.getElementById("token_watchlist").innerHTML += token_tracker_row;
+	      for (let i = 0; i < tacker_obj_keys.length; i++)
+	      {
+			let token_id=tacker_obj_keys[i];
+			if(document.getElementById(`${token_id}_Name`) == null)
+			{
+				let token_tracker_row = `
+				<tr>
+			          <th style="text-align: left;">
+									<div class="" id="${token_id}_Name">${token_id}</div>
+									<div class="muted" id="${token_id}_Ticker"></div>
+							  </th >
+			          <td style="text-align: right;" id="${token_id}_price">$${nFormatter(token_obj[token_id].usd,2)}</td>
+			        </tr>
+				`;
+					document.getElementById("token_watchlist").innerHTML += token_tracker_row;
 
-						console.log(token_obj[token_id].usd);
-						console.log(token_id);
-				}
-				else
-				{
-					document.getElementById(`${token_id}_price`).innerHTML = "$"+nFormatter(token_obj[token_id].usd,3);
-				}
+					console.log(token_obj[token_id].usd);
+					console.log(token_id);
+			}
+			else
+			{
+				document.getElementById(`${token_id}_price`).innerHTML = "$"+nFormatter(token_obj[token_id].usd,3);
+			}
 
-      }
+			if(document.getElementById(`wallet_${token_id}_balance_usd`) != null)
+			{
+				document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter((document.getElementById(`wallet_${token_id}_balance`).innerHTML)*token_obj[token_id].usd,2)}`;
+			}
+	      }
       await sleep(5000);
       trackerSecCounter=0;
     }

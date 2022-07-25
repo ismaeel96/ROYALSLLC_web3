@@ -23,8 +23,8 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/f3c062c5b5.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjs@8.0.1/lib/browser/math.js"  crossorigin="anonymous"></script>
-    <script>
-
+<script>
+	let coingecko_ids_to_track = ["ethereum", "bitcoin", "decentral-games-ice", "gala" ];
     //sleep helper
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -32,25 +32,25 @@
 
     function nFormatter(num, digits)
     {
-      const lookup = [
-        { value: 1, symbol: "" },
-        { value: 1e3, symbol: "k" },
-        { value: 1e6, symbol: "M" },
-        { value: 1e9, symbol: "G" },
-        { value: 1e12, symbol: "T" },
-        { value: 1e15, symbol: "P" },
-        { value: 1e18, symbol: "E" }
-      ];
-      if(num<1)
-      {
-        return (Math.round(num*1000)/1000);
-      }
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-  var item = lookup.slice().reverse().find(function(item) {
-    return num >= item.value;
-  });
-  return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
-}
+	      const lookup = [
+	        { value: 1, symbol: "" },
+	        { value: 1e3, symbol: "k" },
+	        { value: 1e6, symbol: "M" },
+	        { value: 1e9, symbol: "G" },
+	        { value: 1e12, symbol: "T" },
+	        { value: 1e15, symbol: "P" },
+	        { value: 1e18, symbol: "E" }
+	      ];
+	      if(num<1)
+	      {
+	        return (Math.round(num*1000)/1000);
+	      }
+	  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+	  var item = lookup.slice().reverse().find(function(item) {
+	    return num >= item.value;
+	  });
+	  return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
+	}
     //document.getElementById("demo").addEventListener("click", myFunction);
       //let address_lookup_input = document.getElementById('address_lookup_search').value;
 

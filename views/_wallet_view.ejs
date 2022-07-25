@@ -3,6 +3,11 @@
 
     <table class="table table-hover w-100 bg-light">
       <thead>
+				<div class="d-flex mb-3">
+					  <div class="p-2 card-title h4">Wallet</div>
+					  <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refresh_wallet_counter" title="Seconds since last refresh">0</abbr></div>
+				</div>
+
         <tr>
           <th><abbr title="Token Name">Name</abbr></th>
           <th style="text-align: right;"><abbr title="Token Price in USD">Balance</abbr></th>
@@ -44,6 +49,11 @@
 			let token_platform = wallet_tokens_api_response_json_obj[i].token.platform;
 			let token_contract = wallet_tokens_api_response_json_obj[i].token.contract;
 
+			if(!coingecko_ids_to_track.includes(coingecko_ids_to_track))
+			{
+				coingecko_ids_to_track.push(token_id);
+			}
+
 			if(document.getElementById(`wallet_${token_id}`) == null)
 			{
 				let wallet_token_row = `
@@ -55,7 +65,9 @@
 
 				    	<td style="text-align: right;" >
 						<div class="" id="wallet_${token_id}_balance">${nFormatter(token_balance,3)}</div>
-						<div class="text-muted" id="wallet_${token_id}_balance_usd">$----</div>
+						<div class="text-muted placeholder-glow" id="wallet_${token_id}_balance_usd">
+							<span class="placeholder col-1"></span>
+						</div>
 					</td>
 			  	</tr>
 				`;
