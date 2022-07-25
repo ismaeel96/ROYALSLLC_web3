@@ -115,7 +115,7 @@ async function get_polygon_balances(ethereum_address)
 		jsonrpc : '2.0',
 	    	id: '0',
 	    	method: 'alchemy_getTokenBalances',
-		params: [`${ethereum_address}`, `DEFAULT_TOKENS`]
+		params: [`${ethereum_address}`, `[${coingecko_token_list_polygon_contracts_map}]`]
 	  }
 	});
 
