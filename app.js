@@ -65,16 +65,16 @@ app.listen(app.get("port"), function(){
 				}
 				if(String(element.platforms['polygon-pos']).length>15  )
 				{
-					coingecko_token_list_polygon_contracts.push("\""+element.platforms['polygon-pos']+"\"");
+					coingecko_token_list_polygon_contracts.push(element.platforms['polygon-pos']);
 				}
 				if(String(element.platforms['binance-smart-chain']).length>15  )
 				{
-					coingecko_token_list_binance_contracts.push("\""+element.platforms['binance-smart-chain']+"\"");
+					coingecko_token_list_binance_contracts.push(element.platforms['binance-smart-chain']);
 				}
 			});
-			coingecko_token_list_ethereum_contracts_map = coingecko_token_list_ethereum_contracts.map((element) => `"${element}"`).join();
-			coingecko_token_list_polygon_contracts_map = coingecko_token_list_polygon_contracts.map((element) => `"${element}"`).join();
-			coingecko_token_list_binance_contracts_map = coingecko_token_list_binance_contracts.map((element) => `"${element}"`).join();
+			//coingecko_token_list_ethereum_contracts_map = coingecko_token_list_ethereum_contracts.map((element) => `"${element}"`).join();
+			//coingecko_token_list_polygon_contracts_map = coingecko_token_list_polygon_contracts.map((element) => `'${element}'`).join();
+			//coingecko_token_list_binance_contracts_map = coingecko_token_list_binance_contracts.map((element) => `"${element}"`).join();
 			//console.log(coingecko_token_list_ethereum_contracts);
 
 

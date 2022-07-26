@@ -24,7 +24,7 @@
     <script src="https://kit.fontawesome.com/f3c062c5b5.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjs@8.0.1/lib/browser/math.js"  crossorigin="anonymous"></script>
 <script>
-	let coingecko_ids_to_track = ["ethereum", "bitcoin", "decentral-games-ice", "gala" ];
+	let coingecko_ids_to_track = [];
     //sleep helper
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -57,7 +57,11 @@
       //value="0xb1675086bd4a199e28b87E2bBDa9C825116da78F"
 	function search_address()
 	{
-		getNFTFromAddress();
+		lookup_address();
+	}
+	function search_refresh()
+	{
+		updateStats();
 		get_wallet_tokens();
 	}
     </script>

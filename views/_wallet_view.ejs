@@ -1,7 +1,7 @@
 <div class="w-100 p-3">
 	<div class="table table-responsive w-100 d-md-table">
 
-    <table class="table table-hover w-100 bg-light">
+    <table class="table table-hover w-100">
       <thead>
 				<div class="d-flex mb-3">
 					  <div class="p-2 card-title h4">Wallet</div>
@@ -64,9 +64,9 @@
 			  		</th >
 
 				    	<td style="text-align: right;" >
-						<div class="" id="wallet_${token_id}_balance">${nFormatter(token_balance,3)}</div>
-						<div class="text-muted placeholder-glow" id="wallet_${token_id}_balance_usd">
-							<span class="placeholder col-1"></span>
+						<div class="fw-semibold" id="wallet_${token_id}_balance">${nFormatter(token_balance,3)}</div>
+						<div class="text-muted placeholder-glow fw-semibold" id="wallet_${token_id}_balance_usd">
+							<span class="placeholder col-2"></span>
 						</div>
 					</td>
 			  	</tr>
@@ -75,10 +75,14 @@
 			}
 			else
 			{
-				document.getElementById(`wallet_${token_id}_balance`).innerHTML = nFormatter(token_balance,3);
-				document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = "$----";
+				if(document.getElementById(`wallet_${token_id}_balance`)!=null)
+				{
+					document.getElementById(`wallet_${token_id}_balance`).innerHTML = nFormatter(token_balance,3);
+					document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `<span class="placeholder col-2"></span>`;
+				}
 			}
 		}
+		//refresh_wallet_counter_seconds=0;
 		if(refresh_wallet_counter_first_run)
 		{
 			refresh_wallet_counter();
@@ -86,7 +90,7 @@
 		}
 		else
 		{
-			refresh_wallet_counter_seconds=0
+			refresh_wallet_counter_seconds=0;
 		}
 	}
 
@@ -98,6 +102,11 @@
 			document.getElementById("refresh_wallet_counter").innerHTML = refresh_wallet_counter_seconds;
 			await sleep(1000);
 			refresh_wallet_counter_seconds++;
+
+			if(refresh_wallet_counter_seconds>60)
+			{
+				get_wallet_tokens();
+			}
 		}
 	}
 </script>

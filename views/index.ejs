@@ -4,20 +4,53 @@
     <div class="col-md-10 col-12 card-deck">
 
       <div class="section py-2 px-0">
-        <div class="card px-3" style="width: 12rem;">
-          <div class="card-body px-0 py-0">
-            <h5 class="card-title">Portfolio</h5>
-            <h6 id="NFT-total-usd" class="placeholder-glow card-subtitle mb-2 ">
-              <span class="placeholder col-12"></span>
-            </h6>
-            <h6 id="NFT-total" class="placeholder-glow card-subtitle mb-2 text-muted">
-              <span class="placeholder col-12"></span>
-            </h6>
-          </div>
-        </div>
+		<!--<div class="card px-3" style="width: 12rem;">
+			<div class="card-body px-0 py-0">
+			      <h5 class="card-title">Net Worth</h5>
+			      <h6 id="NFT-total-usd" class="placeholder-glow card-subtitle mb-2 ">
+			        	<span class="placeholder col-12"></span>
+			      </h6>
+			      <h6 id="NFT-total" class="placeholder-glow card-subtitle mb-2 text-muted">
+			        	<span class="placeholder col-12"></span>
+			      </h6>
+			</div>
+		</div>-->
+		<div class="section py-0">
+			<div class="row flex-row align-items-start p-2 py-0">
+				<div class="col p-2 py-0">
+					<div class="row p-2 py-0">
+						<div class="col-6 col-sm-4 p-2 py-0" >
+							<p class="h5 py-0">Wallet</p>
+							<p open class="placeholder-glow fw-semibold text-muted" id="wallet_address">
+								<span class="placeholder col-6"></span>
+							</p>
+						</div>
+						<div class="d-none d-sm-block col-sm-6 col-lg-7 p-2 py-0" >
+						</div>
+						<div class="col-6 col-sm-2 col-lg-1 p-2 py-0" >
+							<p class="h5 py-0">Networth</p>
+							<p>
+								<span open class="fw-semibold p-1 pb-0 placeholder-glow placeholder-black" id="NFT-total">
+									<span class="placeholder col-6"></span>
+								</span>
+								<span open class="fw-semibold p-1 pb-0 placeholder-glow placeholder-black text-muted" id="NFT-total-usd">
+									<span class="placeholder col-6"></span>
+								</span>
+							</p>
+							<!--<h6 id="NFT-total-usd" class="placeholder-glow card-subtitle mb-2 ">
+						        	<span class="placeholder col-12"></span>
+						      </h6>
+						      <h6 id="NFT-total" class="placeholder-glow card-subtitle mb-2 text-muted">
+						        	<span class="placeholder col-12"></span>
+						      </h6>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-      </div>
-      <div class="px-3 row py-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
+      <div class="px-3 row pt-1 py-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
 
       </div>
 
@@ -35,7 +68,7 @@
           <button class="nav-link text-black " id="widgets-tab" data-bs-toggle="tab" data-bs-target="#widgets-tab-pane" type="button" role="tab" aria-controls="widgets-tab-pane" aria-selected="false"><i class="fa-solid fa-cubes-stacked"></i> Widgets</button>
         </li>
         <li class="nav-item ms-auto text-end float-end ">
-          <button type="button" onclick="updateStats();" class="btn bg-black fs-6 text-white fw-bold"><i class="fa fa-1x fa-arrow-rotate-right"></i></button>
+          <button type="button" onclick="search_refresh();" class="btn bg-black fs-6 text-white fw-bold"><i class="fa fa-1x fa-arrow-rotate-right"></i></button>
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
@@ -52,8 +85,8 @@
         </div>
       </div>
     </div>
-    <div class="col-2 d-none d-sm-none d-lg-block d-md-block d-xl-block d-xxl-block border border-start border-bottom-0 border-top-0 border-end-0 border-black">
-      <p class="card-title text-center h1 py-2">Widgets</p>
+    <div class="col-2 d-none d-sm-none d-lg-block d-md-block d-xl-block d-xxl-block border border-start border-bottom-0 border-top-0 border-end-0 border-black pt-3">
+      <!--<p class="card-title text-center h3 py-2">Widgets</p>-->
       <%- include('_gas_tracker'); -%>
       <%- include('_token_tracker'); -%>
       <%- include('_24h_trending'); -%>

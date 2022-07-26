@@ -18,9 +18,6 @@
 	let NFTStatsApiPromisesToBeCalled = [];
 	const collectionAPICall = "https://api.opensea.io/api/v1/collection/";
 
-	//getNFTFromAddress(address_lookup_input);
-	//renderNFTCards();
-
 	const scrollContainer = document.getElementById("Collection_Stats_Container");
 	scrollContainer.addEventListener("wheel", (evt) => {
 		evt.preventDefault();
@@ -28,16 +25,18 @@
 	}, {passive: false});
 
 	//json parser and fill HTML text
-	async function getNFTFromAddress()
+	async function lookup_address()
 	{
 		if(clearOldData())
 		{
 			address=document.getElementById('address_lookup_search').value;
+			document.getElementById('wallet_address').innerHTML = address.substring(0,6)+"..."+address.substring(address.length - 6);
 			let NFTCallOBJ = await fetch(opensea_assets_apiCall+address);
 			let NFTCallText = await NFTCallOBJ.text();
 
 			NFTAssets = JSON.parse(NFTCallText);
 			renderNFTCards();
+			get_wallet_tokens()
 		}
 	}
 
@@ -46,6 +45,8 @@
 		document.getElementById('NFTCardsContainerToBeFilled').innerHTML='';
 		document.getElementById('Collection_Stats_Container').innerHTML='';
 		document.getElementById('collection_stats_collapsed_container').innerHTML='';
+		document.getElementById('wallet_tokens').innerHTML='';
+		coingecko_ids_to_track = [];
 		NFTAssets = {};
 		NFTCollections = [];
 

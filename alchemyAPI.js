@@ -72,51 +72,31 @@ async function getMainNetBalances(ethereum_address)
 	return ethereum_main_balances;
 }
 
-// Example POST method implementation:
-async function getPolygonBalancesHelper(ethereum_address)
-{
-	let url= "https://polygon-mainnet.g.alchemyapi.io/v2/7qi0_FvsaxK-C6S1FitX8nYp2GQK01S6"
-
-	/*const response = await fetch(url, {
-	  "headers": {
-	    "content-type": "application/json",
-	  },
-	  "body": `{"jsonrpc":"2.0","id":0,"method":"alchemy_getTokenBalances","params":["0xb1675086bd4a199e28b87E2bBDa9C825116da78F",[${coingecko_token_list_polygon_contracts}]]}`,
-	  "method": "POST"
-  });*/
-  /*const response = await fetch(url, {
-	    "headers": {
-		"content-type": "application/json",
-	    },
-	    "body": `{"jsonrpc":"2.0","id":0,"method":"alchemy_getTokenBalances","params":["0xb1675086bd4a199e28b87E2bBDa9C825116da78F","DEFAULT_TOKENS"]}`,
-	    "method": "POST"
-    });*/
-
-
-const response = await fetch("https://polygon-mainnet.g.alchemy.com/v2/GHDvgOcLW8-U_wwk5er-Lryn6jUjGz6V", {
-  "headers": {
-    "content-type": "application/json",
-  },
-  "body": "{\"jsonrpc\":\"2.0\",\"id\":0,\"method\":\"alchemy_getTokenBalances\",\"params\":[\"0xb1675086bd4a199e28b87E2bBDa9C825116da78F\",\"DEFAULT_TOKENS\"]}",
-  "method": "POST"
-});
-
-
-
-	return response; // parses JSON response into native JavaScript objects
-}
 
 async function get_polygon_balances(ethereum_address)
 {
-	alchemy_getTokenBalances = await axios({
-	  method: 'post',
-	  url: 'https://polygon-mainnet.g.alchemy.com/v2/GHDvgOcLW8-U_wwk5er-Lryn6jUjGz6V',
-	  data: {
-		jsonrpc : '2.0',
-	    	id: '0',
-	    	method: 'alchemy_getTokenBalances',
-		params: [`${ethereum_address}`, `[${coingecko_token_list_polygon_contracts_map}]`]
-	  }
+	//let params='['+ethereum_address+'['+coingecko_token_list_polygon_contracts_map+']]';
+
+	//console.log(JSON.stringify(params));
+	alchemy_getTokenBalances = await axios(
+		{
+		method: 'post',
+		url: 'https://polygon-mainnet.g.alchemy.com/v2/7qi0_FvsaxK-C6S1FitX8nYp2GQK01S6',
+		id:0,
+		headers:
+		{
+		  	"Content-Type": "application/json"
+		},
+		data:
+		{
+			jsonrpc:"2.0",
+			id: 0,
+			method:"alchemy_getTokenBalances",
+			params:[
+				ethereum_address,
+					coingecko_token_list_polygon_contracts
+			]
+		}
 	});
 
 	const nonZeroBalances =	alchemy_getTokenBalances.data.result['tokenBalances'].filter(token => {return token['tokenBalance'] !== '0x0000000000000000000000000000000000000000000000000000000000000000'});
@@ -144,7 +124,6 @@ async function get_polygon_balances(ethereum_address)
 
 module.exports = {
 	get_all_balances,
-	getPolygonBalancesHelper,
 	get_polygon_balances,
 	getMainNetBalances
 };
