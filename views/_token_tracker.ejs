@@ -81,7 +81,7 @@
 				if(document.getElementById(`wallet_${token_id}_balance_usd`) != null)
 				{
 					document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter((document.getElementById(`wallet_${token_id}_balance`).innerHTML)*token_obj[token_id].usd,2)}`;
-					if((nFormatter((document.getElementById(`wallet_${token_id}_balance`).innerHTML)*token_obj[token_id].usd,2))==0)
+					if((nFormatter((document.getElementById(`wallet_${token_id}_balance`).innerHTML)*token_obj[token_id].usd,2))=="0")
 					{
 						document.getElementById(`wallet_${token_id}`).innerHTML= "";
 					}

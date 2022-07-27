@@ -49,6 +49,9 @@ async function getMainNetBalances(ethereum_address)
 		"contract":"",
 		"platform":"ethereum"
 	}}`;
+	console.log("ETH: ", eth_balance);
+	console.log("ETH Balance: ", eth_balance/(10**18));
+	console.log();
 
 	nonZeroBalances.forEach((element,i)=>
 	{
@@ -64,6 +67,9 @@ async function getMainNetBalances(ethereum_address)
 			"contract":"${element.contractAddress}",
 			"platform":"ethereum"
 		}}`;
+		console.log(`${foo[0].symbol}: `, element.tokenBalance);
+		console.log(`${foo[0].symbol} Balance: `, (element.tokenBalance)/(10**18));
+		console.log();
 	});
 	//json_string_builder+=`}`;
 

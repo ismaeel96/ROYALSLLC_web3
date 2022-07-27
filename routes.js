@@ -25,7 +25,7 @@ res.render("index");
 });
 
 router.get('/web3/api/', function (req, res) {
-  console.log(req.query.apiCall);
+  //console.log(req.query.apiCall);
   //console.log("Age:", req.query.age);
 
 
@@ -33,7 +33,7 @@ router.get('/web3/api/', function (req, res) {
       .then(function(serverPromise){
         serverPromise.json()
           .then(function(j) {
-            console.log(j);
+            //console.log(j);
             res.send(j);
           })
           .catch(function(e){
@@ -51,7 +51,7 @@ router.get('/web3/api/wallet_tokens', function (req, res) {
 
 	alchemyAPI.get_all_balances(req.query.address)
 	.then(function(wallet_tokens_json){
-		//console.log(wallet_tokens_json.data);
+		//console.log(wallet_tokens_json);
 		res.send(wallet_tokens_json);
 	})
 	.catch(function(e)
