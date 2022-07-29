@@ -78,10 +78,16 @@
 					document.getElementById(`${token_id}_price`).innerHTML = "$"+nFormatter(token_obj[token_id].usd,3);
 				}
 
+
 				if(document.getElementById(`wallet_${token_id}_balance_usd`) != null)
 				{
-					document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter((document.getElementById(`wallet_${token_id}_balance`).innerHTML)*token_obj[token_id].usd,2)}`;
-					if((nFormatter((document.getElementById(`wallet_${token_id}_balance`).innerHTML)*token_obj[token_id].usd,2))=="0")
+
+					let token_balance_formatted = nReverseFormatter(document.getElementById(`wallet_${token_id}_balance`).innerHTML);
+
+					document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter(token_balance_formatted*token_obj[token_id].usd,2)}`;
+					//console.log(`${token_id}:  $${nFormatter(token_balance_formatted*token_obj[token_id].usd,2)}`);
+					//console.log(`${token_id} format:  ${token_balance_formatted}`);
+					if((nFormatter((token_balance_formatted)*token_obj[token_id].usd,2))=="0")
 					{
 						document.getElementById(`wallet_${token_id}`).innerHTML= "";
 					}

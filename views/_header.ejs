@@ -51,6 +51,42 @@
 	  });
 	  return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
 	}
+
+	function nReverseFormatter(num)
+      {
+		let token_balance_formatted = num;
+		if(token_balance_formatted.includes("k"))
+		{
+			token_balance_formatted = Number(token_balance_formatted.slice(0, -1));
+			return token_balance_formatted*(10**3);
+		}
+		else if(token_balance_formatted.includes("M"))
+		{
+			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
+			return token_balance_formatted*(10**6);
+		}
+		else if(token_balance_formatted.includes("G"))
+		{
+			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
+			return token_balance_formatted*(10**9);
+		}
+		else if(token_balance_formatted.includes("T"))
+		{
+			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
+			return token_balance_formatted*(10**12);
+		}
+		else if(token_balance_formatted.includes("P"))
+		{
+			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
+			return token_balance_formatted*(10**15);
+		}
+		else if(token_balance_formatted.includes("E"))
+		{
+			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
+			return token_balance_formatted*(10**18);
+		}
+  	  return num;
+  	}
     //document.getElementById("demo").addEventListener("click", myFunction);
       //let address_lookup_input = document.getElementById('address_lookup_search').value;
 
@@ -95,7 +131,7 @@ input.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
     //document.getElementById("address_lookup_search_button").click();
-    getNFTFromAddress();
+    search_address();
   }
 });
 </script>

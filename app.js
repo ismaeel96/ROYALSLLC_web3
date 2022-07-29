@@ -104,7 +104,7 @@ app.listen(app.get("port"), function(){
 async function fetch_CG_tokenList() {
 	await s.acquire()
 	try {
-		console.log(s.nrWaiting() + ' calls to fetch are waiting')
+		//console.log(s.nrWaiting() + ' calls to fetch are waiting')
 		//console.log(x);
 		let ux = "--";
 		//let recobj=fetch(x);

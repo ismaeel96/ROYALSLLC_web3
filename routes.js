@@ -66,7 +66,7 @@ async function fetch_OS_Data(x) {
   await s.acquire()
 
   try {
-    console.log(s.nrWaiting() + ' calls to fetch are waiting')
+    //console.log(s.nrWaiting() + ' calls to fetch are waiting')
     //console.log(x);
     let ux = "--";
     //let recobj=fetch(x);
