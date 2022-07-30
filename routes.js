@@ -60,6 +60,11 @@ router.get('/web3/api/wallet_tokens', function (req, res) {
   	});
 });
 
+router.get('/web3/api/mainnet_gas', function (req, res) {
+  //console.log(req.query.address);
+	res.send(eth_mainnet_gas_object);
+});
+
 
 async function fetch_OS_Data(x) {
   //console.log(x);

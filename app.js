@@ -3,6 +3,7 @@ var path = require("path");
 var routes = require("./routes");
 var app = express();
 //var alchemyAPI = require("./alchemyAPI");
+var etherscanAPI = require("./etherscanAPI");
 
 global.coingecko_token_list = {};
 global.coingecko_token_list_id_Metadata={};
@@ -90,7 +91,7 @@ app.listen(app.get("port"), function(){
 	.catch(function(e){
 		console.log(e);
 	});
-
+	etherscanAPI.get_eth_mainnet_gas();
 });
 
 /*async function get_token_balances()

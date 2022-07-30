@@ -14,7 +14,7 @@
           <th style="text-align: right;"><abbr title="Token Price in BTC">Price</abbr></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="placeholder-glow">
         <tr>
           <th style="text-align: left;" id="trending1Name"></th>
           <td style="text-align: left;" id="trending1Symbol"></td>
@@ -62,39 +62,43 @@
   var trendingSecCounter = 0;
 
   //json parser and fill HTML text
-  async function getText(file) {
-    refreshTrendingCounter();
-    while (true)
-    {
-      let myObject = await fetch(file);
-      let myText = await myObject.text();
+  async function getText(file)
+  {
+	refreshTrendingCounter();
+	while (true)
+	{
+	let myObject = await fetch(file);
+	let myText = await myObject.text();
 
-      let btcObj = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
-      let btcMyText = await btcObj.text();
+	//let btcObj = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
+	//let btcMyText = await btcObj.text();
 
-      const obj = JSON.parse(myText);
-      const btcobj = JSON.parse(btcMyText)
+	const obj = JSON.parse(myText);
+	//const btcobj = JSON.parse(btcMyText)
 
-      var btcprice = btcobj.bitcoin.usd;
+	//var btcprice = btcobj.bitcoin.usd;
 
-      for (let i = 0; i < obj.coins.length; i++)
-      {
-        document.getElementById("trending"+(i+1)+"Name").innerHTML = obj.coins[i].item.name;
-        document.getElementById("trending"+(i+1)+"Symbol").innerHTML = obj.coins[i].item.symbol;
-        var priceSTR = ""+obj.coins[i].item.price_btc;
-        if(priceSTR.includes('e'))
-          {
-            document.getElementById("trending"+(i+1)+"Price").innerHTML ="$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto',precision: 4});
-          }
-          else
-          {
-            document.getElementById("trending"+(i+1)+"Price").innerHTML = "$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto', precision: 4});
-          }
-      }
-      await sleep(5000);
-      trendingSecCounter=0;
-    }
-
+	for (let i = 0; i < obj.coins.length; i++)
+	{
+	  	document.getElementById("trending"+(i+1)+"Name").innerHTML = obj.coins[i].item.name;
+	  	document.getElementById("trending"+(i+1)+"Symbol").innerHTML = obj.coins[i].item.symbol;
+	  	var priceSTR = ""+obj.coins[i].item.price_btc;
+			if(btcprice==0)
+			{
+				document.getElementById("trending"+(i+1)+"Price").innerHTML = `<span class="placeholder col-6"></span>`;
+			}
+	        	else if(priceSTR.includes('e'))
+	          	{
+	            	document.getElementById("trending"+(i+1)+"Price").innerHTML ="$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto',precision: 4});
+	          	}
+	          	else
+	          	{
+	            	document.getElementById("trending"+(i+1)+"Price").innerHTML = "$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto', precision: 4});
+	          	}
+	}
+	await sleep(5000);
+	trendingSecCounter=0;
+	}
   }
 
   //refresh counter since successful api call

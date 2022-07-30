@@ -34,7 +34,7 @@
 	{
 	    	while (true)
 	    	{
-		    	coingecko_api_token_usd = "https://api.coingecko.com/api/v3/simple/price?ids=";
+		    	let coingecko_api_token_usd = "https://api.coingecko.com/api/v3/simple/price?ids=";
 		    	for (let i = 0; i < coingecko_ids_to_track.length; i++)
 	          	{
 			    if(i===(coingecko_ids_to_track.length-1))
@@ -46,7 +46,7 @@
 			    	coingecko_api_token_usd+=`${coingecko_ids_to_track[i]}%2C`;
 			    }
 		    	}
-			console.log(coingecko_api_token_usd);
+			//console.log(coingecko_api_token_usd);
 		      let myObject = await fetch(coingecko_api_token_usd);
 		      let myText = await myObject.text();
 		      const token_obj = JSON.parse(myText);
@@ -78,6 +78,10 @@
 					document.getElementById(`${token_id}_price`).innerHTML = "$"+nFormatter(token_obj[token_id].usd,3);
 				}
 
+				if(token_id=="bitcoin")
+				{
+					btcprice = token_obj[token_id].usd;
+				}
 
 				if(document.getElementById(`wallet_${token_id}_balance_usd`) != null)
 				{

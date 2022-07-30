@@ -25,10 +25,12 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjs@8.0.1/lib/browser/math.js"  crossorigin="anonymous"></script>
 <script>
 	let coingecko_ids_to_track = [];
+	let btcprice = 0;
     //sleep helper
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    	function sleep(ms)
+	{
+	      return new Promise(resolve => setTimeout(resolve, ms));
+    	}
 
     function nFormatter(num, digits)
     {
@@ -118,7 +120,7 @@
             <div class="navbar-nav ms-auto">
                 <!--<a href="#" class="nav-item nav-link">Register</a>-->
 
-                  <input id="address_lookup_search" autocomplete="on" class="form-control me-2"  type="search" placeholder="Search" aria-label="Search">
+                  <input id="address_lookup_search" autocomplete="on" class="form-control me-2"  type="search" placeholder="search ETH/ENS address" aria-label="Search">
                   <button id="address_lookup_search_button" onclick="search_address();" class="btn bg-black text-white" type="submit"><i class="fa fa-magnifying-glass"></i></i></button>
 
             </div>

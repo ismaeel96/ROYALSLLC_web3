@@ -86,7 +86,7 @@
 
 	<script>
 		//api call
-		getText("https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=WIXBRRT4DHHS6UM2CSJ4SB9GEU5SM5JBB5");
+		getText("/web3/api/mainnet_gas");
 
 		var messageStatus="NOK";
 		var secCounter = 0;
@@ -116,7 +116,7 @@
 					messageStatus="NOK";
 					secCounter=0;
 				}
-				await sleep(5000);
+				await sleep(3000);
 			}
 
 		}
