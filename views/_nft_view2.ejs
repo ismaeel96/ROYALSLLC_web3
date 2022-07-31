@@ -78,6 +78,9 @@
 
 				let collection_Stats_container_innerHTML =`
 				<div id="Collection_stats_${NFTSlug}" class="col-5 card" style="width: 9rem;padding-right: 0; padding-left: 0;" data-bs-toggle="collapse" data-bs-target="#collapsed_stats_${NFTSlug}" aria-expanded="false" aria-controls="collapsed_stats_${NFTSlug}">
+					<div class="bg-black fw-semibold text-white p-1 py-0 ratio-1x1 card" style="position: absolute;top: 0px; left: 0px; z-index: 9999;--bs-bg-opacity: .75" id="collection_${NFTSlug}_counter">
+
+					</div>
 					<div  class="ratio ratio-16x9" style>
 						<img src="${NFTCollectionBanner}" alt="${NFTCollection}" style="object-fit: cover; padding-right: 0; padding-left: 0;" class="card-img-top">
 					</div>
@@ -178,6 +181,7 @@
 	{
 		firstupdate=0;
 		var NFT_Value=0;
+		let NFT_collection_counter=0;
 		console.log(Object.keys(NFTCollections).length);
 		document.getElementById('collection_stats_collapsed_container').innerHTML="";
 		for (let i = 0; i < NFTCollections.length; i++)
@@ -228,8 +232,11 @@
 			{
 				NFT_Value += Number(NFTStatsJSONObj.stats.floor_price);
 				matches.item(ii).innerHTML = '<i class="fa-brands fa-ethereum"></i>'+nFormatter((NFTStatsJSONObj.stats.floor_price*1),3);
+				NFT_collection_counter+=1;
 				console.log(`floor-price-${NFTCollections[i]} : ${NFTStatsJSONObj.stats.floor_price}`);
 			}
+			document.getElementById(`collection_${collectionname}_counter`).innerHTML=NFT_collection_counter;
+			NFT_collection_counter=0;
 			let collectionrealname= document.getElementById(`slug_Name_${collectionname}`).innerHTML;
 			let collection_Stats_collapsed_container_innerHTML = `
 			<div class="collapse" id="collapsed_stats_${collectionname}">
@@ -300,10 +307,10 @@
 			document.getElementById('collection_stats_collapsed_container').innerHTML+=collection_Stats_collapsed_container_innerHTML;
 			document.getElementsByClassName(`floor-price-collection-card-${collectionname}`)[0].innerHTML = `<i class="fa-brands fa-ethereum"></i>${nFormatter((floor_price*1),3)} $${nFormatter((floor_price*ETH_USD),2)}`;
 
-
 		}
 		document.getElementById('NFT-total').innerHTML=`<i class="fa-brands fa-ethereum"></i>${nFormatter((NFT_Value*1),3)}`;
 		document.getElementById('NFT-total-usd').innerHTML=`$${nFormatter((NFT_Value*ETH_USD),2)}`;
+
 		console.log(NFT_Value);
 	}
 
