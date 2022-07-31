@@ -17,26 +17,46 @@
 		</div>-->
 		<div class="section py-0">
 			<div class="row flex-row align-items-start p-2 py-0">
-				<div class="col p-2 py-0">
+				<div class="col-12 p-2 py-0">
 					<div class="row p-2 py-0">
-						<div class="col-6 col-sm-4 p-2 py-0" >
+						<div class="col-6 p-2 py-0" >
 							<p class="h5 py-0">Wallet</p>
 							<p open class="placeholder-glow fw-semibold text-muted" id="wallet_address">
 								<span class="placeholder col-6"></span>
 							</p>
 						</div>
-						<div class="d-none d-sm-block col-sm-6 col-lg-7 p-2 py-0" >
-						</div>
-						<div class="col-6 col-sm-2 col-lg-1 p-2 py-0 text-end" >
-							<p class="h5 py-0">Networth</p>
-							<p>
-								<span open class="fw-semibold p-1 pb-0 placeholder-glow placeholder-black" id="NFT-total">
-									<span class="placeholder col-6"></span>
-								</span>
-								<span open class="fw-semibold p-1 pb-0 placeholder-glow placeholder-black text-muted" id="NFT-total-usd">
-									<span class="placeholder col-6"></span>
-								</span>
-							</p>
+
+						<div class="col-6 p-2 py-0 text-start" >
+							<div class="d-flex flex-row  " data-bs-toggle="collapse" data-bs-target="#networth-collapse" aria-expanded="false" aria-controls="networth-collapse">
+
+								<div class="py-0 px-3 text-start" >
+									<p class="h5 py-0">Networth</p>
+									<p open class="placeholder-glow fw-semibold text-muted" id="networth_usd">
+										<span class="placeholder col-6"></span>
+									</p>
+								</div>
+								<div class="py-0 px-3 text-start collapse d-sm-block" id="networth-collapse" >
+									<p class="h5 py-0">NFTs</p>
+									<p open class="placeholder-glow">
+										<span open class="fw-semibold py-0 placeholder-glow placeholder-black " id="NFT-total-usd">
+											<span class="placeholder col-6"></span>
+										</span>
+										<span open class="fw-semibold py-0 placeholder-glow placeholder-black text-muted text-nowrap" id="NFT-total">
+											<span class="placeholder col-6"></span>
+										</span>
+									</p>
+								</div>
+								<div class=" py-0 px-3 text-start collapse d-sm-block" id="networth-collapse">
+									<p class="h5 py-0">Tokens</p>
+									<p open class="placeholder-glow fw-semibold text-muted" id="token-total-usd">
+										<span class="placeholder col-6"></span>
+									</p>
+								</div>
+							</div>
+
+
+
+
 							<!--<h6 id="NFT-total-usd" class="placeholder-glow card-subtitle mb-2 ">
 						        	<span class="placeholder col-12"></span>
 						      </h6>

@@ -29,6 +29,8 @@
 	let trackerSecCounter = 0;
 	refreshTokenTrackerCounter();
 
+	let token_networth=0;
+
 	//json parser and fill HTML text
 	async function getWatchlistApi()
 	{
@@ -89,6 +91,11 @@
 					let token_balance_formatted = nReverseFormatter(document.getElementById(`wallet_${token_id}_balance`).innerHTML);
 
 					document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter(token_balance_formatted*token_obj[token_id].usd,2)}`;
+
+					//count token networth
+					token_networth+= (token_balance_formatted)*(token_obj[token_id].usd);
+					document.getElementById("token-total-usd").innerHTML=`$${nFormatter(token_networth,2)}`;
+
 					//console.log(`${token_id}:  $${nFormatter(token_balance_formatted*token_obj[token_id].usd,2)}`);
 					//console.log(`${token_id} format:  ${token_balance_formatted}`);
 					if((nFormatter((token_balance_formatted)*token_obj[token_id].usd,2))=="0")
@@ -98,8 +105,27 @@
 				}
 
 		      }
+			let nft_total_usd =0;
+			if(!document.getElementById("NFT-total-usd").innerHTML.includes("placeholder"))
+			{
+				nft_total_usd=nReverseFormatter(document.getElementById("NFT-total-usd").innerHTML.substring(1));
+			}
+
+			console.log("NFT total: ", nft_total_usd);
+			console.log("Token total: ", token_networth);
+
+			if(nft_total_usd+token_networth=='0')
+			{
+				document.getElementById(`networth_usd`).innerHTML=`<span class="placeholder col-6"></span>`;
+			}
+			if(nft_total_usd+token_networth!='0')
+			{
+				document.getElementById(`networth_usd`).innerHTML= `$${nFormatter(nft_total_usd+token_networth,2)}`;
+			}
+
 			await sleep(5000);
 			trackerSecCounter=0;
+			token_networth=0;
 		}
   	}
   //refresh counter since successful api call
