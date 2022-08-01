@@ -96,7 +96,7 @@
 	            	document.getElementById("trending"+(i+1)+"Price").innerHTML = "$"+ math.format(btcprice * math.format(obj.coins[i].item.price_btc,{notation: 'auto'}),{notation: 'auto', precision: 4});
 	          	}
 	}
-	await sleep(5000);
+	await sleep(30000);
 	trendingSecCounter=0;
 	}
   }

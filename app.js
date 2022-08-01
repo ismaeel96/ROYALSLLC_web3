@@ -4,6 +4,7 @@ var routes = require("./routes");
 var app = express();
 //var alchemyAPI = require("./alchemyAPI");
 var etherscanAPI = require("./etherscanAPI");
+const fs = require('fs');
 
 global.coingecko_token_list = {};
 global.coingecko_token_list_id_Metadata={};
@@ -46,6 +47,11 @@ app.use(express.static('public'));
 app.use('/stylesheet', express.static(__dirname + '/stylesheet'));
 app.use('/icons', express.static(__dirname + '/icons'));
 
+
+
+let fetch_CG_tokenList_rawdata = fs.readFileSync('CG_tokenList.json');
+coingecko_token_list = JSON.parse(fetch_CG_tokenList_rawdata);
+
 app.listen(app.get("port"), function(){
 	console.log("Server started on port ");
 
@@ -58,7 +64,7 @@ app.listen(app.get("port"), function(){
 			coingecko_token_list=j;
 
 			//const foo = coingecko_token_list.filter(d => d.id == "gala");
-			j.forEach((element,i)=>
+			coingecko_token_list.forEach((element,i)=>
 			{
 				if(String(element.platforms.ethereum).startsWith("0x"))
 				{
@@ -78,7 +84,7 @@ app.listen(app.get("port"), function(){
 			//coingecko_token_list_binance_contracts_map = coingecko_token_list_binance_contracts.map((element) => `"${element}"`).join();
 			//console.log(coingecko_token_list_ethereum_contracts);
 
-
+			fs.writeFileSync('CG_tokenList.json', JSON.stringify(j));
 			//get_token_balances();
 
 		})
