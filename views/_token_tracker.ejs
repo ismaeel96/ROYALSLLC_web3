@@ -1,31 +1,33 @@
-https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cgala&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h
 
 <div class="container-fluid w-100 bg-light">
 	<div class="table table-responsive w-100 d-md-table">
 
-    <table class="table table-hover w-100">
-      <thead>
+		<table class="table table-hover w-100">
+			<thead>
 				<div class="d-flex mb-3">
-					  <div class="p-2 card-title h4">Token Tracker</div>
-					  <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refresh_token_tracker_counter" title="Seconds since last refresh">0</abbr></div>
+					<div class="p-2 card-title h4">Token Tracker</div>
+					<div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refresh_token_tracker_counter" title="Seconds since last refresh">0</abbr></div>
 				</div>
 
-        <tr>
-          <th><abbr title="Token Name">Name</abbr></th>
-          <th style="text-align: right;"><abbr title="Token Price in USD">Price</abbr></th>
-        </tr>
-      </thead>
-      <tbody id="token_watchlist">
+				<tr>
+					<th><abbr title="Token Name">Name</abbr></th>
+					<th style="text-align: right;"><abbr title="Token Price in USD">Price</abbr></th>
+				</tr>
+			</thead>
+			<tbody id="token_watchlist">
 
-      </tbody>
-    </table>
-  </div>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script>
-  //api call
-	let coingecko_api_token_usd = "https://api.coingecko.com/api/v3/simple/price?ids=";
+	//api call
+	let coingecko_api_token_usd_head = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=";//"https://api.coingecko.com/api/v3/simple/price?ids=";
+	let coingecko_api_token_usd_tail = "&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h";
+
 	let tracked_tokens = ["ethereum", "bitcoin", "decentral-games-ice", "gala" ];
+
 	coingecko_ids_to_track.push(tracked_tokens);
 	getWatchlistApi();
 	let trackerSecCounter = 0;
@@ -36,55 +38,68 @@ https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Ceth
 	//json parser and fill HTML text
 	async function getWatchlistApi()
 	{
-	    	while (true)
-	    	{
-		    	let coingecko_api_token_usd = "https://api.coingecko.com/api/v3/simple/price?ids=";
-		    	for (let i = 0; i < coingecko_ids_to_track.length; i++)
-	          	{
-			    if(i===(coingecko_ids_to_track.length-1))
-			    {
-				    coingecko_api_token_usd+=`${coingecko_ids_to_track[i]}&vs_currencies=usd&include_24hr_change=true`;
-			    }
-			    else
-			    {
-			    	coingecko_api_token_usd+=`${coingecko_ids_to_track[i]}%2C`;
-			    }
-		    	}
+		while (true)
+		{
+			let coingecko_api_token_usd = coingecko_api_token_usd_head;
+
+
+			for (let i = 0; i < coingecko_ids_to_track.length; i++)
+			{
+				if(i===(coingecko_ids_to_track.length-1))
+				{
+					coingecko_api_token_usd+=`${coingecko_ids_to_track[i]}${coingecko_api_token_usd_tail}`;
+				}
+				else
+				{
+					coingecko_api_token_usd+=`${coingecko_ids_to_track[i]}%2C`;
+				}
+			}
 			//console.log(coingecko_api_token_usd);
-		      let myObject = await fetch(coingecko_api_token_usd);
-		      let myText = await myObject.text();
-		      const token_obj = JSON.parse(myText);
+			let myObject = await fetch(coingecko_api_token_usd);
+			let myText = await myObject.text();
+			const token_obj = JSON.parse(myText);
 
-			let tacker_obj_keys = Object.keys(token_obj)
+			let tacker_obj_keys = Object.keys(token_obj);
 
-		      for (let i = 0; i < tacker_obj_keys.length; i++)
-		      {
-				let token_id=tacker_obj_keys[i];
+			for (let i = 0; i < token_obj.length; i++)
+			{
+				let token_id=token_obj[i].id;
+				let token_symbol=token_obj[i].symbol;
+				let token_name=token_obj[i].name;
+				let token_image=token_obj[i].image;
+				let token_current_price=token_obj[i].current_price;
+				let token_market_cap=token_obj[i].market_cap;
+				//let token_id=token_obj[i].market_cap_rank;
+				//let fully_diluted_valuation=token_obj[i].fully_diluted_valuation;
+				//let token_id=token_obj[i].total_volume;
+				let token_price_change_percentage_24h=token_obj[i].price_change_percentage_24h;
+
+
 				if((document.getElementById(`${token_id}_Name`) == null) && (tracked_tokens.includes(token_id)))
 				{
 					let token_tracker_row = `
 					<tr>
-				          	<th style="text-align: left;">
-							<div class="" id="${token_id}_Name">${token_id}</div>
-							<div class="muted" id="${token_id}_Ticker"></div>
-				  		</th >
-			          		<td style="text-align: right;" id="${token_id}_price">$${nFormatter(token_obj[token_id].usd,2)}</td>
-			        	</tr>
+						<th style="text-align: left;">
+							<div class="text-uppercase" id="${token_id}_Ticker">${token_symbol}</div>
+							<div class="h6 text-muted" id="${token_id}_Name">${token_name}</div>
+						</th >
+						<td style="text-align: right;" id="${token_id}_price">$${nFormatter(token_current_price,2)}</td>
+					</tr>
 					`;
 					document.getElementById("token_watchlist").innerHTML += token_tracker_row;
 
-					console.log(token_obj[token_id].usd);
-					console.log(token_id);
+					//console.log(token_obj[token_id].usd);
+					//console.log(token_id);
 				}
 
 				if(document.getElementById(`${token_id}_Name`) != null)
 				{
-					document.getElementById(`${token_id}_price`).innerHTML = "$"+nFormatter(token_obj[token_id].usd,3);
+					document.getElementById(`${token_id}_price`).innerHTML = "$"+nFormatter(token_current_price,3);
 				}
 
 				if(token_id=="bitcoin")
 				{
-					btcprice = token_obj[token_id].usd;
+					btcprice = token_current_price;
 				}
 
 				if(document.getElementById(`wallet_${token_id}_balance_usd`) != null)
@@ -92,21 +107,31 @@ https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Ceth
 
 					let token_balance_formatted = nReverseFormatter(document.getElementById(`wallet_${token_id}_balance`).innerHTML);
 
-					document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter(token_balance_formatted*token_obj[token_id].usd,2)}`;
+
 
 					//count token networth
-					token_networth+= (token_balance_formatted)*(token_obj[token_id].usd);
+					token_networth+= (token_balance_formatted)*(token_current_price);
 					document.getElementById("token-total-usd").innerHTML=`$${nFormatter(token_networth,2)}`;
+
+					/*if(document.getElementById(`wallet_${token_id}_image`)!=null)
+					{
+						document.getElementById(`wallet_${token_id}_image`).src=token_image;
+					}*/
 
 					//console.log(`${token_id}:  $${nFormatter(token_balance_formatted*token_obj[token_id].usd,2)}`);
 					//console.log(`${token_id} format:  ${token_balance_formatted}`);
-					if((nFormatter((token_balance_formatted)*token_obj[token_id].usd,2))=="0")
+					if((nFormatter((token_balance_formatted)*token_current_price,2))=="0")
 					{
 						document.getElementById(`wallet_${token_id}`).innerHTML= "";
 					}
+					else
+					{
+						document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter(token_balance_formatted*token_current_price,2)}`;
+						document.getElementById(`wallet_${token_id}_image`).src=token_image;
+					}
 				}
 
-		      }
+			}
 			let nft_total_usd =0;
 			if(!document.getElementById("NFT-total-usd").innerHTML.includes("placeholder"))
 			{
@@ -129,15 +154,16 @@ https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Ceth
 			trackerSecCounter=0;
 			token_networth=0;
 		}
-  	}
-  //refresh counter since successful api call
-  async function refreshTokenTrackerCounter()
-  {
-    while (true)
-    {
-      document.getElementById("refresh_token_tracker_counter").innerHTML = trackerSecCounter;
-      await sleep(1000);
-      trackerSecCounter++;
-    }
-  }
+	}
+	//refresh counter since successful api call
+	async function refreshTokenTrackerCounter()
+	{
+		while (true)
+		{
+			document.getElementById("refresh_token_tracker_counter").innerHTML = trackerSecCounter;
+			await sleep(1000);
+			trackerSecCounter++;
+		}
+	}
+	//https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cgala&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h
 </script>

@@ -57,17 +57,26 @@
 			if(document.getElementById(`wallet_${token_id}`) == null)
 			{
 				let wallet_token_row = `
-				<tr id="wallet_${token_id}">
-				    	<th style="text-align: left;">
-						<div class="text-uppercase" id="wallet_${token_id}_Name">${token_symbol}</div>
-						<div class="fw-semibold text-muted text-truncate" id="wallet_${token_id}_Ticker">${token_name}</div>
-			  		</th >
+				<tr id="wallet_${token_id}" class="py-0">
+				    	<th class="py-1 style="text-align: left;">
+							<div class="d-flex flex-row">
+								<div class="p-1">
+									<div  class="align-middle ratio ratio-1x1 p-1" style="width:2.5rem;">
+										<img id="wallet_${token_id}_image" src="..." style="object-fit: cover; padding-right: 0; padding-left: 0;" class="align-middle card-img-top">
+									</div>
+								</div>
+								<div class="px-3">
+									<div class="text-uppercase" id="wallet_${token_id}_Name">${token_symbol}</div>
+									<div class="fw-semibold text-muted text-truncate" id="wallet_${token_id}_Ticker">${token_name}</div>
+								</div>
+							</div>
+			  			</th>
 
-				    	<td style="text-align: right;" >
-						<div class="fw-semibold" id="wallet_${token_id}_balance">${nFormatter(token_balance,3)}</div>
-						<div class="text-muted placeholder-glow fw-semibold" id="wallet_${token_id}_balance_usd">
+				    	<td class="py-0" style="text-align: right;" >
+							<div class="fw-semibold" id="wallet_${token_id}_balance">${nFormatter(token_balance,3)}</div>
+							<div class="text-muted placeholder-glow fw-semibold" id="wallet_${token_id}_balance_usd">
 							<span class="placeholder col-2"></span>
-						</div>
+							</div>
 					</td>
 			  	</tr>
 				`;
