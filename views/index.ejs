@@ -1,117 +1,96 @@
 <%- include('_header'); -%>
 <div class="container-fluid">
-  <div class="row align-items-start">
-    <div class="col-md-10 col-12 card-deck">
+	<div class="row align-items-start">
+		<div class="col-md-10 col-12 card-deck">
 
-      <div class="section py-2 px-0">
-		<!--<div class="card px-3" style="width: 12rem;">
-			<div class="card-body px-0 py-0">
-			      <h5 class="card-title">Net Worth</h5>
-			      <h6 id="NFT-total-usd" class="placeholder-glow card-subtitle mb-2 ">
-			        	<span class="placeholder col-12"></span>
-			      </h6>
-			      <h6 id="NFT-total" class="placeholder-glow card-subtitle mb-2 text-muted">
-			        	<span class="placeholder col-12"></span>
-			      </h6>
-			</div>
-		</div>-->
-		<div class="section py-0">
-			<div class="row flex-row align-items-start p-2 py-0">
-				<div class="col-12 px-2 py-0 py-0">
-					<div class="row px-2 py-0">
-						<div class="col-6 px-2 py-0" >
-							<p class="h6 fw-bold py-0">Wallet</p>
-							<p open class="placeholder-glow fw-semibold text-muted" id="wallet_address">
-								<span class="placeholder col-6"></span>
-							</p>
-						</div>
-
-						<div class="col-6 px-0 py-0 text-start" >
-							<div class="d-flex flex-row px-0 float-end">
-
-								<div class="py-0 px-2 text-start col" >
-									<p class="h6 fw-bold py-0">Networth</p>
-									<p open class="placeholder-glow fw-semibold text-muted" id="networth_usd">
+			<div class="section py-2 px-0">
+				<div class="section py-0">
+					<div class="row flex-row align-items-start p-2 py-0">
+						<div class="col-12 px-2 py-0 py-0">
+							<div class="row px-2 py-0">
+								<div class="col-6 px-2 py-0" >
+									<p class="h6 fw-bold py-0">Wallet</p>
+									<p open class="placeholder-glow fw-semibold text-muted" id="wallet_address">
 										<span class="placeholder col-6"></span>
 									</p>
 								</div>
-								<div class="py-0 px-2 text-start col" id="" >
-									<p class="h6 fw-bold py-0">NFTs</p>
-									<p open class="placeholder-glow text-sm-nowrap">
-										<span open class="fw-semibold py-0 placeholder-glow placeholder-black  " id="NFT-total-usd">
-											<span class="placeholder col-6"></span>
-										</span>
-										<span open class="fw-semibold py-0 placeholder-glow placeholder-black text-muted text-nowrap" id="NFT-total">
-											<span class="placeholder col-6"></span>
-										</span>
-									</p>
-								</div>
-								<div class=" py-0 px-2 text-start d-none d-sm-block col" id="">
-									<p class="h6 fw-bold py-0">Tokens</p>
-									<p open class="placeholder-glow fw-semibold text-muted" id="token-total-usd">
-										<span class="placeholder col-6"></span>
-									</p>
+
+								<div class="col-6 px-0 py-0 text-start" >
+									<div class="d-flex flex-row px-0 float-end">
+
+										<div class="py-0 px-2 text-start col" >
+											<p class="h6 fw-bold py-0">Networth</p>
+											<p open class="placeholder-glow fw-semibold text-muted" id="networth_usd">
+												<span class="placeholder col-6"></span>
+											</p>
+										</div>
+										<div class="py-0 px-2 text-start col" id="" >
+											<p class="h6 fw-bold py-0">NFTs</p>
+											<p open class="placeholder-glow text-sm-nowrap">
+												<span open class="fw-semibold py-0 placeholder-glow placeholder-black  " id="NFT-total-usd">
+													<span class="placeholder col-6"></span>
+												</span>
+												<span open class="fw-semibold py-0 placeholder-glow placeholder-black text-muted text-nowrap" id="NFT-total">
+													<span class="placeholder col-6"></span>
+												</span>
+											</p>
+										</div>
+										<div class=" py-0 px-2 text-start d-none d-sm-block col" id="">
+											<p class="h6 fw-bold py-0">Tokens</p>
+											<p open class="placeholder-glow fw-semibold text-muted" id="token-total-usd">
+												<span class="placeholder col-6"></span>
+											</p>
+										</div>
+									</div>
 								</div>
 							</div>
-
-
-
-
-							<!--<h6 id="NFT-total-usd" class="placeholder-glow card-subtitle mb-2 ">
-						        	<span class="placeholder col-12"></span>
-						      </h6>
-						      <h6 id="NFT-total" class="placeholder-glow card-subtitle mb-2 text-muted">
-						        	<span class="placeholder col-12"></span>
-						      </h6>-->
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<div class="px-3 row pt-1 pb-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
+
+			</div>
+
+			<div id="collection_stats_collapsed_container">
+			</div>
+
+			<ul class="nav nav-tabs fs-6" id="myTab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button class="nav-link text-black active" id="token-tab" data-bs-toggle="tab" data-bs-target="#token-tab-pane" type="button" role="tab" aria-controls="token-tab-pane" aria-selected="true"><i class="fa-solid fa-qrcode"></i> Wallet</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link text-black " id="nfts-tab" data-bs-toggle="tab" data-bs-target="#nfts-tab-pane" type="button" role="tab" aria-controls="nfts-tab-pane" aria-selected="false"><i class="fa-solid fa-file-contract"></i> NFTs</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link text-black " id="widgets-tab" data-bs-toggle="tab" data-bs-target="#widgets-tab-pane" type="button" role="tab" aria-controls="widgets-tab-pane" aria-selected="false"><i class="fa-solid fa-cubes-stacked"></i> Widgets</button>
+				</li>
+				<li class="nav-item ms-auto text-end float-end ">
+					<button type="button" onclick="search_refresh();" class="btn bg-black fs-6 text-white fw-bold"><i class="fa fa-1x fa-arrow-rotate-right"></i></button>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="token-tab-pane" role="tabpanel" aria-labelledby="token-tab" tabindex="0">
+					<%- include('_wallet_view'); -%>
+				</div>
+
+				<div class="tab-pane fade" id="nfts-tab-pane" role="tabpanel" aria-labelledby="nfts-tab" tabindex="0">
+					<%- include('_nft_view2'); -%>
+				</div>
+
+				<div class="tab-pane fade" id="widgets-tab-pane" role="tabpanel" aria-labelledby="widgets-tab" tabindex="0">
+
+				</div>
+			</div>
+		</div>
+		<div class="col-2 d-none d-sm-none d-lg-block d-md-block d-xl-block d-xxl-block border border-start border-bottom-0 border-top-0 border-end-0 border-black pt-3">
+			<!--<p class="card-title text-center h3 py-2">Widgets</p>-->
+			<%- include('_gas_tracker'); -%>
+			<%- include('_token_tracker'); -%>
+			<%- include('_24h_trending'); -%>
 		</div>
 	</div>
-
-      <div class="px-3 row pt-1 pb-2 row flex-row flex-nowrap mb-4" style="overflow-x: auto;" id="Collection_Stats_Container">
-
-      </div>
-
-      <div id="collection_stats_collapsed_container">
-      </div>
-
-      <ul class="nav nav-tabs fs-6" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link text-black active" id="token-tab" data-bs-toggle="tab" data-bs-target="#token-tab-pane" type="button" role="tab" aria-controls="token-tab-pane" aria-selected="true"><i class="fa-solid fa-qrcode"></i> Wallet</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link text-black " id="nfts-tab" data-bs-toggle="tab" data-bs-target="#nfts-tab-pane" type="button" role="tab" aria-controls="nfts-tab-pane" aria-selected="false"><i class="fa-solid fa-file-contract"></i> NFTs</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link text-black " id="widgets-tab" data-bs-toggle="tab" data-bs-target="#widgets-tab-pane" type="button" role="tab" aria-controls="widgets-tab-pane" aria-selected="false"><i class="fa-solid fa-cubes-stacked"></i> Widgets</button>
-        </li>
-        <li class="nav-item ms-auto text-end float-end ">
-          <button type="button" onclick="search_refresh();" class="btn bg-black fs-6 text-white fw-bold"><i class="fa fa-1x fa-arrow-rotate-right"></i></button>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="token-tab-pane" role="tabpanel" aria-labelledby="token-tab" tabindex="0">
-		  <%- include('_wallet_view'); -%>
-        </div>
-
-        <div class="tab-pane fade" id="nfts-tab-pane" role="tabpanel" aria-labelledby="nfts-tab" tabindex="0">
-          <%- include('_nft_view2'); -%>
-        </div>
-
-        <div class="tab-pane fade" id="widgets-tab-pane" role="tabpanel" aria-labelledby="widgets-tab" tabindex="0">
-
-        </div>
-      </div>
-    </div>
-    <div class="col-2 d-none d-sm-none d-lg-block d-md-block d-xl-block d-xxl-block border border-start border-bottom-0 border-top-0 border-end-0 border-black pt-3">
-      <!--<p class="card-title text-center h3 py-2">Widgets</p>-->
-      <%- include('_gas_tracker'); -%>
-      <%- include('_token_tracker'); -%>
-      <%- include('_24h_trending'); -%>
-    </div>
-  </div>
 
 </div>
 

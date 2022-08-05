@@ -1,30 +1,41 @@
 <div class="w-100 p-3 py-2">
 
-	<div class="container-fluid" id="landingSearch">
-		<div class="row">
-			<div class="col-md-12">
+	<div class="" id="landingSearch">
+		<div class="d-flex flex-row justify-content-center">
+			<div class="col-md-10 text-center">
 				<h2>
 					Welcome to Royals LLC. Web3
 				</h2>
 				<p>
 					Begin by searching an Eth address below.
 				</p>
-				<input id="address_lookup_search" autocomplete="on" class="form-control me-2"  type="search" placeholder="search ETH/ENS address" aria-label="Search">
-				<button id="address_lookup_search_button" onclick="search_address();" class="btn bg-black text-white" type="submit"><i class="fa fa-magnifying-glass"></i></i></button>
+
+				<div class="d-flex flex-row justify-content-center">
+					<div class="">
+						<input id="address_lookup_search_start" autocomplete="on" class="form-control me-2"  type="search" placeholder="search ETH/ENS address" aria-label="Search">
+					</div>
+					<div class="float-left">
+						<button id="address_lookup_search_button" value="address_lookup_search_start" onclick="search_address(this.value);" class="btn bg-black text-white" type="submit"><i class="fa fa-magnifying-glass"></i></button>
+					</div>
+
+
+				</div>
+
 			</div>
 		</div>
 	</div>
-	<div class="table table-responsive w-100 d-md-table">
+
+	<div id="wallet_table" class="table table-responsive w-100 d-md-table d-none">
 
     <table class="table table-hover w-100">
-      <thead>
-				<div class="d-flex mb-3">
+      <thead class="pb-1">
+				<div class="d-flex mb-0">
 					  <div class="p-2 py-0 card-title h4">Wallet</div>
 					  <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refresh_wallet_counter" title="Seconds since last refresh">0</abbr></div>
 				</div>
 
-        <tr>
-          <th><abbr title="Token Name">Name</abbr></th>
+        <tr >
+          <th style="max-width:50%"><abbr title="Token Name">Name</abbr></th>
           <th style="text-align: right;"><abbr title="Token Price in USD">Balance</abbr></th>
         </tr>
       </thead>
@@ -40,7 +51,7 @@
 	let refresh_wallet_counter_first_run = true;
 	async function get_wallet_tokens()//eth_address
 	{
-		let eth_address= document.getElementById('address_lookup_search').value;
+		let eth_address= address;//document.getElementById('address_lookup_search').value;
 		let wallet_tokens_api_url = `/web3/api/wallet_tokens?address=${eth_address}`;
 
 		let headers = new Headers();
@@ -80,7 +91,7 @@
 										<img id="wallet_${token_id}_image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/64px-HD_transparent_picture.png" style="object-fit: cover; padding-right: 0; padding-left: 0;" class="align-middle card-img-top">
 									</div>
 								</div>
-								<div class="px-3">
+								<div class="px-3" style="max-width:50%">
 									<div class="text-uppercase" id="wallet_${token_id}_Name">${token_symbol}</div>
 									<div class="fw-semibold text-muted text-truncate" id="wallet_${token_id}_Ticker">${token_name}</div>
 								</div>

@@ -36,6 +36,14 @@
 			  white-space: nowrap !important;
 			}
 		}
+
+		.form-control:focus
+		{
+		  border-color: #ffffff;
+		  box-shadow:  #ffffff;
+		  border: 0px solid #ccc;
+		  outline:none;
+		}
 	</style>
 
 <script>
@@ -108,9 +116,14 @@
       //let address_lookup_input = document.getElementById('address_lookup_search').value;
 
       //value="0xb1675086bd4a199e28b87E2bBDa9C825116da78F"
-	function search_address()
+	let address = "";
+	function search_address(element_id)
 	{
+		address=document.getElementById(element_id).value;
 		lookup_address();
+		document.getElementById("landingSearch").className  = "container-fluid d-none";
+
+		document.getElementById("wallet_table").className ="table table-responsive w-100 d-md-table";
 	}
 	function search_refresh()
 	{
@@ -136,7 +149,7 @@
                 <!--<a href="#" class="nav-item nav-link">Register</a>-->
 
                   <input id="address_lookup_search" autocomplete="on" class="form-control me-2"  type="search" placeholder="search ETH/ENS address" aria-label="Search">
-                  <button id="address_lookup_search_button" onclick="search_address();" class="btn bg-black text-white" type="submit"><i class="fa fa-magnifying-glass"></i></i></button>
+                  <button id="address_lookup_search_button" value="address_lookup_search" onclick="search_address(this.value);" class="btn bg-black text-white" type="submit"><i class="fa fa-magnifying-glass"></i></i></button>
 
             </div>
         </div>

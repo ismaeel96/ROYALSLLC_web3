@@ -5,7 +5,7 @@
 
 
 <script>
-	let address = document.getElementById('address_lookup_search').value;//address_lookup_input; //"0xb1675086bd4a199e28b87E2bBDa9C825116da78F";
+	//let address = document.getElementById('address_lookup_search').value;//address_lookup_input; //"0xb1675086bd4a199e28b87E2bBDa9C825116da78F";
 	let coingeckoEthAPICall="https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cbitcoin&vs_currencies=usd";
 	const opensea_assets_apiCall = "https://api.opensea.io/api/v1/assets?owner=";
 	const collectionStatsApiCall = "";
@@ -25,11 +25,11 @@
 	}, {passive: false});
 
 	//json parser and fill HTML text
-	async function lookup_address()
+	async function lookup_address(eth_address)
 	{
 		if(clearOldData())
 		{
-			address=document.getElementById('address_lookup_search').value;
+			//address=eth_address;//document.getElementById('address_lookup_search').value;
 			document.getElementById('wallet_address').innerHTML = address.substring(0,6)+"..."+address.substring(address.length - 6);
 			let NFTCallOBJ = await fetch(opensea_assets_apiCall+address);
 			let NFTCallText = await NFTCallOBJ.text();
@@ -46,9 +46,9 @@
 		document.getElementById('Collection_Stats_Container').innerHTML='';
 		document.getElementById('collection_stats_collapsed_container').innerHTML='';
 		document.getElementById('wallet_tokens').innerHTML='';
-		
+
 		document.getElementById('landingSearch').class = 'd-none';
-		
+
 		coingecko_ids_to_track = [];
 		NFTAssets = {};
 		NFTCollections = [];
