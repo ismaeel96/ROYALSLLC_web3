@@ -21,8 +21,6 @@ const { ethers } = require("ethers");
 
 async function get_all_balances(ethereum_address)
 {
-	//var json_string_builder ='';
-
 	let json_ethereum_string_builder = await getMainNetBalances(ethereum_address);
 	let json_polygon_string_builder = await get_polygon_balances(ethereum_address);
 
@@ -38,7 +36,7 @@ async function getMainNetBalances(ethereum_address)
 
 	// Query the blockchain (replace example parameters)
 	const eth_balance = await web3.eth.getBalance(ethereum_address, 'latest');
-	//const token_balances = await web3.alchemy.getTokenBalances(ethereum_address, 'DEFAULT_TOKENS');
+
 	token_balances = await axios(
 		{
 		method: 'post',
@@ -74,13 +72,6 @@ async function getMainNetBalances(ethereum_address)
 		"platform":"ethereum"
 	}}`;
 
-
-	/*console.log("ETH: ", eth_balance);
-	console.log("ETH Balance: ", eth_balance/(10**18));
-	console.log();*/
-
-	//console.log(token_balances);
-
 	const nonZeroBalances =	token_balances.data.result['tokenBalances'].filter(token => {return token['tokenBalance'] !== '0x0000000000000000000000000000000000000000000000000000000000000000'});
 	//console.log(nonZeroBalances);
 
@@ -110,29 +101,6 @@ async function getMainNetBalances(ethereum_address)
 			console.log();
 		}
 	}
-	///working format
-	/*nonZeroBalances.forEach((element,i)=>
-	{
-		const foo = coingecko_token_list.filter(d => d.platforms.ethereum == element.contractAddress);
-
-		ethereum_main_balances+=`,
-		{"token":
-		{
-			"id":	"${foo[0].id}",
-			"symbol": "${foo[0].symbol}",
-			"name": "${foo[0].name}",
-			"balance":"${((element.tokenBalance)/(10**18))}",
-			"contract":"${element.contractAddress}",
-			"platform":"ethereum"
-		}}`;
-		console.log(`${foo[0].symbol}: `, element.tokenBalance);
-		console.log(`${foo[0].symbol} Balance: `, (element.tokenBalance)/(10**18));
-		console.log();
-	});*/
-	//json_string_builder+=`}`;
-
-	//jsonObj=JSON.parse(json_string_builder);
-	//console.log(jsonObj);
 	return ethereum_main_balances;
 }
 
@@ -179,19 +147,61 @@ async function get_polygon_balances(ethereum_address)
 			"contract":"${nonZeroBalances[i].contractAddress}",
 			"platform":"polygon"
 		}}`;
-
-		/*console.log(`${foo[0].symbol}: `, nonZeroBalances[i].tokenBalance);
-		console.log(`${foo[0].symbol} Balance: `, (nonZeroBalances[i].tokenBalance)/(10**18));
-		console.log();*/
 	}
 
 	//console.log(polygon_balances);
 	return polygon_balances;
 }
 
+async function get_polygon_NFTs(ethereum_address)
+{
+	let address = "0xb1675086bd4a199e28b87E2bBDa9C825116da78F";//ethereum_address;
+
+	const baseURL = `https://polygon-mainnet.g.alchemy.com/v2/7qi0_FvsaxK-C6S1FitX8nYp2GQK01S6`;
+	const url = `${baseURL}/getNFTs/?owner=${address}&withMetadata=true&filters[]=SPAM`;
+
+	const config = {
+	    method: 'get',
+	    url: url,
+	};
+
+	/*axios_config = {
+		method: 'get',
+		header: 'Accept: application/json',
+		url: `https://polygon-mainnet.g.alchemy.com/v2/v2/7qi0_FvsaxK-C6S1FitX8nYp2GQK01S6/getNFTs/?owner=${address}`
+	};*/
+
+	try {
+		//alchemy_get_polygon_NFTs = await fetch(`https://polygon-mainnet.g.alchemy.com/v2/7qi0_FvsaxK-C6S1FitX8nYp2GQK01S6/getNFTs/?owner=${address}`);
+		alchemy_get_polygon_NFTs = await axios(config);
+		console.log(alchemy_get_polygon_NFTs.data.ownedNfts[0]);
+	} catch (e) {
+		console.log(e);
+	} finally {
+
+	}
+
+
+
+	//return polygon_NFTs;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = {
 	get_all_balances,
 	get_polygon_balances,
-	getMainNetBalances
+	getMainNetBalances,
+	get_polygon_NFTs
 };

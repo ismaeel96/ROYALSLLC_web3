@@ -9,6 +9,8 @@ var router = express.Router();
 
 var alchemyAPI = require("./alchemyAPI");
 
+var openseaAPI = require("./openseaAPI");
+
 //import fetch from "node-fetch";
 //import {RateLimit} from "async-sema";
 const { Sema } = require('async-sema');
@@ -29,7 +31,7 @@ router.get('/web3/api/', function (req, res) {
   //console.log("Age:", req.query.age);
 
 
-  fetch_OS_Data(req.query.apiCall)
+  openseaAPI.get_OS_stats(req.query.apiCall)
       .then(function(serverPromise){
         serverPromise.json()
           .then(function(j) {
@@ -65,32 +67,6 @@ router.get('/web3/api/mainnet_gas', function (req, res) {
 	res.send(eth_mainnet_gas_object);
 });
 
-
-async function fetch_OS_Data(x) {
-  //console.log(x);
-  await s.acquire()
-
-  try {
-    //console.log(s.nrWaiting() + ' calls to fetch are waiting')
-    //console.log(x);
-    let ux = "--";
-    //let recobj=fetch(x);
-
-    const response = await OS_fetchThrottle(x);
-    //console.log(response);
-    //const body = await response.text();
-
-    //const body = await response.json();
-
-    //console.log("");
-    //console.log(x);
-    //console.log(body);
-    return response;
-
-  } finally {
-    s.release();
-  }
-}
 
 
 module.exports = router;

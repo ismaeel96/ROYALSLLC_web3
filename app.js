@@ -2,8 +2,10 @@ var express = require("express");
 var path = require("path");
 var routes = require("./routes");
 var app = express();
-//var alchemyAPI = require("./alchemyAPI");
+var alchemyAPI = require("./alchemyAPI");
+var database = require("./DB");
 var etherscanAPI = require("./etherscanAPI");
+var openseaAPI = require("./openseaAPI");
 const fs = require('fs');
 
 global.coingecko_token_list = {};
@@ -54,6 +56,24 @@ coingecko_token_list = JSON.parse(fetch_CG_tokenList_rawdata);
 
 app.listen(app.get("port"), function(){
 	console.log("Server started on port ");
+	//alchemyAPI.get_polygon_NFTs();
+
+
+	/*openseaAPI.get_OS_Contract()
+	    .then(function(serverPromise){
+		serverPromise.json()
+		  .then(function(j) {
+		    console.log(j);
+		  })
+		  .catch(function(e){
+		    console.log(e);
+		  });
+	    })
+	    .catch(function(e){
+		  console.log(e);
+	  });*/
+
+	//database.init_db();
 
 	//coinggecko api call to get supported token list
 	fetch_CG_tokenList()
@@ -98,6 +118,8 @@ app.listen(app.get("port"), function(){
 		console.log(e);
 	});
 	etherscanAPI.get_eth_mainnet_gas();
+
+
 });
 
 /*async function get_token_balances()
