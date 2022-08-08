@@ -18,32 +18,28 @@
 						<button id="address_lookup_search_button" value="address_lookup_search_start" onclick="search_address(this.value);" class="btn bg-black text-white" type="submit"><i class="fa fa-magnifying-glass"></i></button>
 					</div>
 
-
 				</div>
 
 			</div>
 		</div>
 	</div>
 
-	<div id="wallet_table" class="table table-responsive w-100 d-md-table d-none">
+	<div class="d-flex row mx-0 px-0 ">
+		<div class="row mx-0">
+			<div class="col-8 col-sm-6 text-start float-start">
+				<p class="p2 fw-bold py-0">Tokens</p>
+			</div>
+			<div class="col-2 p-0 d-none d-sm-block">
+				<p class="p2 fw-bold py-0">7D Trend</p>
+			</div>
+			<div class=" col-4 px-0 text-end float-end">
+				<p class="p2 fw-bold py-0">Balance <abbr class="is-size-7 fw-normal text-muted" id="refresh_wallet_counter" title="Seconds since last refresh">0</abbr></p>
+			</div>
+		</div>
+		<div id="wallet_tokens" class="d-flex row mx-0">
 
-    <table class="table table-hover w-100">
-      <thead class="pb-1">
-				<div class="d-flex mb-0">
-					  <div class="p-2 py-0 card-title h4">Wallet</div>
-					  <div class="ms-auto p-2 is-size-7 has-text-right "><abbr id="refresh_wallet_counter" title="Seconds since last refresh">0</abbr></div>
-				</div>
-
-        <tr >
-          <th style="max-width:50%"><abbr title="Token Name">Name</abbr></th>
-          <th style="text-align: right;"><abbr title="Token Price in USD">Balance</abbr></th>
-        </tr>
-      </thead>
-      <tbody id="wallet_tokens">
-
-      </tbody>
-    </table>
-  </div>
+		</div>
+	</div>
 </div>
 
 <script>
@@ -83,28 +79,34 @@
 			if(document.getElementById(`wallet_${token_id}`) == null)
 			{
 				let wallet_token_row = `
-				<tr id="wallet_${token_id}" class="py-0">
-				    	<th class="py-1 style="text-align: left;">
-							<div class="d-flex flex-row">
-								<div class="p-1">
-									<div  class="align-middle ratio ratio-1x1 p-1" style="width:2.5rem;">
-										<img id="wallet_${token_id}_image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/64px-HD_transparent_picture.png" style="object-fit: cover; padding-right: 0; padding-left: 0;" class="align-middle card-img-top">
-									</div>
-								</div>
-								<div class="px-3" style="max-width:50%">
-									<div class="text-uppercase" id="wallet_${token_id}_Name">${token_symbol}</div>
-									<div class="fw-semibold text-muted text-truncate" id="wallet_${token_id}_Ticker">${token_name}</div>
+				<div id="wallet_${token_id}" class=" row px-0 py-0 mx-0 d-flex flex-nowrap border-bottom" style="">
+				    	<div class="py-1 col-8 col-sm-6 flex-nowrap" style="text-align: left;">
+						<div class="d-flex flex-row">
+							<div class="p-1">
+								<div  class="align-middle ratio ratio-1x1 p-1" style="width:2.5rem;">
+									<img id="wallet_${token_id}_image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/64px-HD_transparent_picture.png" style="object-fit: cover; padding-right: 0; padding-left: 0;" class="align-middle card-img-top">
 								</div>
 							</div>
-			  			</th>
+							<div class="px-1" style="max-width:85%">
+								<div class="text-uppercase fw-semibold" id="wallet_${token_id}_Name">${token_symbol}</div>
+								<div class="fw-semibold text-muted text-truncate" id="wallet_${token_id}_Ticker">${token_name}</div>
+							</div>
+						</div>
+		  			</div>
 
-				    	<td class="py-0" style="text-align: right;" >
-							<div class="fw-semibold" id="wallet_${token_id}_balance">${nFormatter(token_balance,3)}</div>
-							<div class="text-muted placeholder-glow fw-semibold" id="wallet_${token_id}_balance_usd">
+					<div class="col-2 p-0 d-none d-sm-block" stye="height: 3rem;">
+						<canvas  style="display: block;width: inherit !important; height: 3rem;" id="wallet_${token_id}_chart"></canvas>
+					</div>
+
+				    	<div class="py-0 px-0 col-4" style="text-align: right;" >
+						<div class="fw-semibold" id="wallet_${token_id}_balance">
+							${nFormatter(token_balance,3)}
+						</div>
+						<div class="text-muted placeholder-glow fw-semibold" id="wallet_${token_id}_balance_usd">
 							<span class="placeholder col-2"></span>
-							</div>
-					</td>
-			  	</tr>
+						</div>
+					</div>
+			  	</div>
 				`;
 					document.getElementById("wallet_tokens").innerHTML += wallet_token_row;
 			}

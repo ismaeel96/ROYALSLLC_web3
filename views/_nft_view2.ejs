@@ -319,18 +319,15 @@
 		var toSort = document.getElementById('Collection_Stats_Container').children;
 		toSort = Array.prototype.slice.call(toSort, 0);
 
-		toSort.sort(function(a, b) {
-
-
+		toSort.sort(function(a, b)
+		{
 			let a_value=document.getElementsByClassName(`floor-price-collection-card-${a.id.split('_')[2]}`)[0].innerHTML;
 			a_value_formatted = a_value.replace(`<i class="fa-brands fa-ethereum"></i>`,"");
 			let b_value=document.getElementsByClassName(`floor-price-collection-card-${b.id.split('_')[2]}`)[0].innerHTML;
 			b_value_formatted = b_value.replace(`<i class="fa-brands fa-ethereum"></i>`,"");
 
-
 		    	var aord = +a_value_formatted.split(" ")[0];
 		    	var bord = +b_value_formatted.split(" ")[0];
-
 
 		    	console.log("sorting:", a_value.split(" ")[0], b_value.split(" ")[0])
 		    	// two elements never have the same ID hence this is sufficient:
