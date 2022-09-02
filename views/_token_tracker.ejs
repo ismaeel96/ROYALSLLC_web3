@@ -76,6 +76,17 @@
 				//let token_id=token_obj[i].total_volume;
 				let token_price_change_percentage_24h=token_obj[i].price_change_percentage_24h;
 
+				let token_price_change_color = "";
+				if (token_price_change_percentage_24h<0)
+				{
+					token_price_change_color = "text-danger";
+				}
+				else if (token_price_change_percentage_24h>0)
+				{
+					token_price_change_color = "text-success";
+				}
+
+
 
 				if((document.getElementById(`${token_id}_Name`) == null) && (tracked_tokens.includes(token_id)))
 				{
@@ -85,7 +96,10 @@
 							<div class="text-uppercase" id="${token_id}_Ticker">${token_symbol}</div>
 							<div class="h6 text-muted" id="${token_id}_Name">${token_name}</div>
 						</th >
-						<td style="text-align: right;" id="${token_id}_price">$${nFormatter(token_current_price,2)}</td>
+						<td style="text-align: right;" >
+							<div class="text-uppercase" id="${token_id}_price">$${nFormatter(token_current_price,2)}</div>
+							<div class="h6 ${token_price_change_color}" id="${token_id}_Change">(${nFormatter(token_price_change_percentage_24h,1)}%)</div>
+						</td>
 					</tr>
 					`;
 					document.getElementById("token_watchlist").innerHTML += token_tracker_row;
@@ -104,11 +118,18 @@
 					btcprice = token_current_price;
 				}
 
+				if(token_id=="ethereum")
+				{
+					ETH_USD = token_current_price;
+				}
+
+
 				if(document.getElementById(`wallet_${token_id}_balance_usd`) != null)
 				{
 
-					let token_balance_formatted = nReverseFormatter(document.getElementById(`wallet_${token_id}_balance`).innerHTML);
-
+					let token_balance_formatted = Number(nReverseFormatter(document.getElementById(`wallet_${token_id}_balance`).innerHTML.trim()));
+					let token_name =document.getElementById(`wallet_${token_id}_Name`).innerHTML.trim();
+					console.log(token_name + ":" +document.getElementById(`wallet_${token_id}_balance`).innerHTML.trim());
 
 
 					//count token networth
@@ -132,7 +153,12 @@
 					else
 					{
 						document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter(token_balance_formatted*token_current_price,2)}`;
-						document.getElementById(`wallet_${token_id}_image`).src=token_image;
+						document.getElementById(`wallet_${token_id}_image`).src = token_image;
+
+						let wallet_token_price_innerHTML =`<span> <span class="p6 fw-semibold">  $${nFormatter(token_current_price,3)}</span> <span style="font-size:.75rem" class="${token_price_change_color}">(${nFormatter(token_price_change_percentage_24h,1)}%)</span></span>`;
+
+						document.getElementById(`wallet_${token_id}_Price`).innerHTML = wallet_token_price_innerHTML;//`<span class="text-uppercase">$${nFormatter(token_current_price,3)}</span>`;
+						//document.getElementById(`wallet_${token_id}_price_change`).innerHTML = `<span class="h6 ${token_price_change_color}">(${nFormatter(token_price_change_percentage_24h,1)}%)</span>`;
 
 						if(true)
 						{
@@ -169,11 +195,6 @@
 									borderWidth:0,
 									borderColor:"rgba(0,0,0,1)",
 									legend: {display: false},
-									interaction: {
-									      intersect: false,
-									      mode: 'index',
-									      axis: 'xy',
-									    },
 									//yAxes: [{ticks: {min:  Math.min.apply(this, token_sparkline_7d), max: Math.max.apply(this, token_sparkline_7d)}}],
 									animation: {
 										duration: 0 // general animation time

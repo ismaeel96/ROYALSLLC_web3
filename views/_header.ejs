@@ -17,15 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
    -->
 
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139124372-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-139124372-1');
-</script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
@@ -58,6 +50,7 @@
 <script>
 	let coingecko_ids_to_track = [];
 	let btcprice = 0;
+	let ETH_USD=1000;
     //sleep helper
     	function sleep(ms)
 	{
@@ -77,8 +70,8 @@
 	      ];
 	      if(num<1)
 	      {
-	        return (Math.round(num*1000)/1000);
-	      }
+	        return (Math.round(num*(10**digits))/(10**digits));
+	  	}
 	  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
 	  var item = lookup.slice().reverse().find(function(item) {
 	    return num >= item.value;
@@ -89,35 +82,31 @@
 	function nReverseFormatter(num)
       {
 		let token_balance_formatted = num;
+		let token_balance_unformatted = Number(token_balance_formatted.slice(0, -2));
 		if(token_balance_formatted.includes("k"))
 		{
-			token_balance_formatted = Number(token_balance_formatted.slice(0, -1));
-			return token_balance_formatted*(10**3);
+			//console.log("k");
+			return token_balance_unformatted*(10**3);
 		}
 		else if(token_balance_formatted.includes("M"))
 		{
-			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
-			return token_balance_formatted*(10**6);
+			return token_balance_unformatted*(10**6);
 		}
 		else if(token_balance_formatted.includes("G"))
 		{
-			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
-			return token_balance_formatted*(10**9);
+			return token_balance_unformatted*(10**9);
 		}
 		else if(token_balance_formatted.includes("T"))
 		{
-			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
-			return token_balance_formatted*(10**12);
+			return token_balance_unformatted*(10**12);
 		}
 		else if(token_balance_formatted.includes("P"))
 		{
-			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
-			return token_balance_formatted*(10**15);
+			return token_balance_unformatted*(10**15);
 		}
 		else if(token_balance_formatted.includes("E"))
 		{
-			token_balance_formatted = Number(token_balance_formatted.slice(0, -2));
-			return token_balance_formatted*(10**18);
+			return token_balance_unformatted*(10**18);
 		}
   	  return num;
   	}

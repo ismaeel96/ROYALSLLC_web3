@@ -12,8 +12,8 @@
 	let firstupdate=1;
 	let NFTCollections = new Array();
 	let NFTAssets = {};
-	let ETH_USD=1000;
-	ETH_USDrefresh();
+
+	//ETH_USDrefresh();
 
 	let NFTStatsApiPromisesToBeCalled = [];
 	const collectionAPICall = "https://api.opensea.io/api/v1/collection/";
@@ -71,7 +71,7 @@
 
 			if(!NFTCollections.includes(NFTSlug))
 			{
-				console.log('adding ' + NFTSlug +' to array');
+				//console.log('adding ' + NFTSlug +' to array');
 				NFTCollections.push(NFTSlug);
 
 				if(NFTCollectionBanner==null)
@@ -165,10 +165,10 @@
 		}
 		if(firstupdate===1 && NFTCollections.length>1)
 		{
-			console.log("updating stats");
+			//console.log("updating stats");
 			updateStats();
 		}
-		console.log(NFTCollections);
+		//console.log(NFTCollections);
 
 	}
 
@@ -186,7 +186,7 @@
 		firstupdate=0;
 		var NFT_Value=0;
 		let NFT_collection_counter=0;
-		console.log(Object.keys(NFTCollections).length);
+		//console.log(Object.keys(NFTCollections).length);
 		document.getElementById('collection_stats_collapsed_container').innerHTML="";
 		for (let i = 0; i < NFTCollections.length; i++)
 		{
@@ -237,7 +237,7 @@
 				NFT_Value += Number(NFTStatsJSONObj.stats.floor_price);
 				matches.item(ii).innerHTML = '<i class="fa-brands fa-ethereum"></i>'+nFormatter((NFTStatsJSONObj.stats.floor_price*1),3);
 				NFT_collection_counter+=1;
-				console.log(`floor-price-${NFTCollections[i]} : ${NFTStatsJSONObj.stats.floor_price}`);
+				//console.log(`floor-price-${NFTCollections[i]} : ${NFTStatsJSONObj.stats.floor_price}`);
 			}
 			document.getElementById(`collection_${collectionname}_counter`).innerHTML=NFT_collection_counter;
 			NFT_collection_counter=0;
@@ -329,7 +329,7 @@
 		    	var aord = +a_value_formatted.split(" ")[0];
 		    	var bord = +b_value_formatted.split(" ")[0];
 
-		    	console.log("sorting:", a_value.split(" ")[0], b_value.split(" ")[0])
+		    	//console.log("sorting:", a_value.split(" ")[0], b_value.split(" ")[0])
 		    	// two elements never have the same ID hence this is sufficient:
 		    	return (aord < bord) ? 1 : -1;
 		});
@@ -341,7 +341,7 @@
 		    parent.appendChild(toSort[i]);
 		}
 
-		console.log(NFT_Value);
+		//console.log(NFT_Value);
 	}
 
 	async function ETH_USDrefresh()
