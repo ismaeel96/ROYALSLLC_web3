@@ -37,7 +37,26 @@
 			NFTAssets = JSON.parse(NFTCallText);
 			renderNFTCards();
 			get_wallet_tokens()
+
+			document.cookie = `lastAddressCookie=${address}`;
 		}
+	}
+
+	if(read_cookie("lastAddressCookie") != null && read_cookie("lastAddressCookie")!=address )
+	{
+		let addressCookie = read_cookie("lastAddressCookie")+"";
+
+		//document.getElementById("address_lookup_search").value = addressCookie;
+		//lookup_address(addressCookie);
+
+		address= addressCookie+"";
+
+		lookup_address();
+		document.getElementById("landingSearch").className  = "container-fluid d-none";
+
+		document.getElementById("wallet_table").className ="table table-responsive w-100 d-md-table";
+
+		console.log(addressCookie);
 	}
 
 	function clearOldData()

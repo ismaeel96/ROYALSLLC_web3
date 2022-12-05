@@ -115,6 +115,7 @@
 
       //value="0xb1675086bd4a199e28b87E2bBDa9C825116da78F"
 	let address = "";
+
 	function search_address(element_id)
 	{
 		address=document.getElementById(element_id).value;
@@ -127,6 +128,13 @@
 	{
 		updateStats();
 		get_wallet_tokens();
+	}
+
+
+	function read_cookie(key)
+	{
+	    var result;
+	    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
 	}
     </script>
   </head>
@@ -153,6 +161,7 @@
         </div>
     </div>
 </nav>
+
 <script>
 var input = document.getElementById("address_lookup_search")
 input.addEventListener("keypress", function(event) {
@@ -162,4 +171,6 @@ input.addEventListener("keypress", function(event) {
     search_address();
   }
 });
+
+
 </script>

@@ -70,6 +70,12 @@
 				let token_image=token_obj[i].image;
 				let token_current_price=token_obj[i].current_price;
 				let token_market_cap=token_obj[i].market_cap;
+				let circulating_supply=token_obj[i].circulating_supply;
+
+				if (circulating_supply==0.0)
+				{
+					token_current_price= 0;
+				}
 
 				//let token_id=token_obj[i].market_cap_rank;
 				//let fully_diluted_valuation=token_obj[i].fully_diluted_valuation;

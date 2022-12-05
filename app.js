@@ -20,6 +20,18 @@ global.coingecko_token_list_ethereum_contracts_map="";
 global.coingecko_token_list_binance_contracts=[];
 global.coingecko_token_list_binance_contracts_map="";
 
+
+
+
+global.metadata_MainnetContract_list=[];
+global.metadata_MainnetContract_map="";
+
+global.metadata_polygonContract_list=[];
+global.metadata_polygonContract_map="";
+
+global.metadata_BinanceContract_list=[];
+global.metadata_BinanceContract_map="";
+
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const throttle = require('fetch-throttle');
 const coingecko_fetchThrottle = throttle(fetch, 4, 1100);
@@ -38,14 +50,8 @@ app.set("view engine", "ejs");
 
 app.use(express.json({limit: '1mb'}));
 app.use(routes);
-//app.use(express.static(path.join(__dirname, '/public')));
-//app.use('/public', express.static('public'))
-//app.use(express.static('public'));
-//app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(express.static('public'));
-//app.use(express.static('stylesheet'));
-//app.use(express.static('icons'));
 app.use('/stylesheet', express.static(__dirname + '/stylesheet'));
 app.use('/icons', express.static(__dirname + '/icons'));
 
@@ -54,26 +60,17 @@ app.use('/icons', express.static(__dirname + '/icons'));
 let fetch_CG_tokenList_rawdata = fs.readFileSync('CG_tokenList.json');
 coingecko_token_list = JSON.parse(fetch_CG_tokenList_rawdata);
 
+/*let metadata_polygonContract_rawdata = fs.readFileSync('metadata_polygonContract.json');
+metadata_polygonContract_list = JSON.parse(metadata_polygonContract_rawdata);
+
+let metadata_MainnetContract_rawdata = fs.readFileSync('metadata_MainnetContract.json');
+metadata_MainnetContract_list = JSON.parse(metadata_MainnetContract_rawdata);
+
+let metadata_BinanceContract = fs.readFileSync('metadata_BinanceContract.json');
+metadata_BinanceContract = JSON.parse(metadata_BinanceContract);*/
+
 app.listen(app.get("port"), function(){
 	console.log("Server started on port ");
-	//alchemyAPI.get_polygon_NFTs();
-
-
-	/*openseaAPI.get_OS_Contract()
-	    .then(function(serverPromise){
-		serverPromise.json()
-		  .then(function(j) {
-		    console.log(j);
-		  })
-		  .catch(function(e){
-		    console.log(e);
-		  });
-	    })
-	    .catch(function(e){
-		  console.log(e);
-	  });*/
-
-	//database.init_db();
 
 	//coinggecko api call to get supported token list
 	fetch_CG_tokenList()
@@ -99,10 +96,6 @@ app.listen(app.get("port"), function(){
 					coingecko_token_list_binance_contracts.push(element.platforms['binance-smart-chain']);
 				}
 			});
-			//coingecko_token_list_ethereum_contracts_map = coingecko_token_list_ethereum_contracts.map((element) => `"${element}"`).join();
-			//coingecko_token_list_polygon_contracts_map = coingecko_token_list_polygon_contracts.map((element) => `'${element}'`).join();
-			//coingecko_token_list_binance_contracts_map = coingecko_token_list_binance_contracts.map((element) => `"${element}"`).join();
-			//console.log(coingecko_token_list_ethereum_contracts);
 
 			fs.writeFileSync('CG_tokenList.json', JSON.stringify(j));
 			//get_token_balances();
@@ -111,8 +104,6 @@ app.listen(app.get("port"), function(){
 		.catch(function(e){
 			console.log(e);
 		});
-		//alchemyAPI.getMainNetBalances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F");
-		//console.log("1st ",get_token_balances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F"));
 	})
 	.catch(function(e){
 		console.log(e);
@@ -121,14 +112,6 @@ app.listen(app.get("port"), function(){
 
 
 });
-
-/*async function get_token_balances()
-{
-	//let text = await  alchemyAPI.axios_test("0xb1675086bd4a199e28b87E2bBDa9C825116da78F");
-	let text2 = await  alchemyAPI.get_all_balances("0xb1675086bd4a199e28b87E2bBDa9C825116da78F");
-	console.log(text2);
-	return text2;
-}*/
 
 async function fetch_CG_tokenList() {
 	await s.acquire()
