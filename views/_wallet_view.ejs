@@ -26,13 +26,13 @@
 
 	<div class="d-flex row mx-0 px-0 ">
 		<div class="row mx-0">
-			<div class="col-4 text-start float-start">
+			<div class="col text-start float-start">
 				<p class="p2 fw-bold py-0">Tokens</p>
 			</div>
-			<div class="col-4 p-0 d-none text-center d-sm-block">
+			<div class="col p-0 d-none text-center d-sm-block">
 				<p class="p2 fw-bold py-0 text-center">7D Trend</p>
 			</div>
-			<div class=" col-4 px-0 text-end float-end">
+			<div class=" col px-0 text-end float-end">
 				<div class="col-6 px-0 text-end float-end">
 					<p class="p2 fw-bold py-0 text-nowrap">Balance <abbr class="is-size-7 fw-normal text-muted" id="refresh_wallet_counter" title="Seconds since last refresh">0</abbr></p>
 				</div>
@@ -82,7 +82,7 @@
 			{
 				let wallet_token_row = `
 				<div id="wallet_${token_id}" class="row px-0 py-0 mx-0 d-flex flex-nowrap border-bottom" style="">
-				    	<div class="py-1 col-4 flex-nowrap" style="text-align: left;">
+				    	<div class="py-1 col flex-nowrap" style="text-align: left;">
 						<div class="d-flex flex-row">
 							<div class="p-1">
 								<div  class="align-middle ratio ratio-1x1 p-1" style="width:2.5rem;">
@@ -93,18 +93,18 @@
 								<div class="text-uppercase fw-bold" id="wallet_${token_id}_Name">
 									${token_symbol} <span id="wallet_${token_id}_Price"></span>
 								</div>
-								<div class="fw-semibold text-muted text-truncate" id="wallet_${token_id}_Ticker">
+								<div class="fw-semibold text-muted text-truncate" style="max-width:170px;" id="wallet_${token_id}_Ticker">
 									${token_name}
 								</div>
 							</div>
 						</div>
 		  			</div>
 
-					<div class="col-4 p-0 d-none d-sm-block" stye="height: 3rem;">
+					<div class="col p-0 d-none d-sm-block" stye="height: 3rem;">
 						<canvas  style="display: block;width: inherit !important; height: 3rem;" id="wallet_${token_id}_chart"></canvas>
 					</div>
 
-				    	<div class="col-4 py-0 px-1 g-" style="text-align: right;" >
+				    	<div class="col py-0 px-1 g-" style="text-align: right;" >
 						<div class="w100 w-100 fw-semibold" id="wallet_${token_id}_balance">
 							${nFormatter(token_balance,3)}
 						</div>
