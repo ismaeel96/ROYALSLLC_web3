@@ -159,6 +159,7 @@
 					else
 					{
 						document.getElementById(`wallet_${token_id}_balance_usd`).innerHTML = `$${nFormatter(token_balance_formatted*token_current_price,2)}`;
+
 						document.getElementById(`wallet_${token_id}_image`).src = token_image;
 
 						let wallet_token_price_innerHTML =`<span> <span class="p6 fw-semibold">  $${nFormatter(token_current_price,3)}</span> <span style="font-size:.75rem" class="${token_price_change_color}">(${nFormatter(token_price_change_percentage_24h,1)}%)</span></span>`;
@@ -289,6 +290,22 @@
 				document.getElementById(`networth_usd`).innerHTML= `$${nFormatter(nft_total_usd+token_networth,2)}`;
 			}
 
+			let NFTNetworth=document.getElementById("NFT-total-usd").innerHTML.substring(1);
+			let TokenNetworth=document.getElementById("token-total-usd").innerHTML.substring(1);
+
+			let totalNetworth = Number(nReverseFormatter(NFTNetworth))+Number(nReverseFormatter(TokenNetworth));
+
+			/*console.log("NFTNetworth:"+NFTNetworth);
+			console.log("TokenNetworth:"+TokenNetworth);
+			console.log("totalNetworth:"+nFormatter(totalNetworth,2));*/
+			try {
+				document.getElementById("wallet_total_balance").innerHTML=`$${nFormatter(TokenNetworth,2)}`
+			} catch (e) {
+
+			} finally {
+
+			}
+			document.getElementById("networth_usd").innerHTML=`$${nFormatter(totalNetworth,2)}`
 			await sleep(5000);
 			trackerSecCounter=0;
 			token_networth=0;
